@@ -9,12 +9,7 @@ import Foundation
 import opencv2
 
 extension Imgproc {
-    /*
-    static func twoImagesSideBySide(leftImg: Mat, rightImg: Mat) -> Mat {
-        let newWidth = leftImg.width() + rightImg.width()
-        let newMat = Mat.zeros(leftImg.height(), cols: newWidth, type: )
-    }
-    */
+    
     static func resizeAndPad(img: Mat, size: Size2i, padColor: Int32 = 0) -> Mat {
         let h = img.height()
         let w = img.width()
