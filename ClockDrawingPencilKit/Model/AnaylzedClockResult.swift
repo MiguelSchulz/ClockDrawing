@@ -28,44 +28,75 @@ struct AnalyzedClockResult {
     var timesRestarted = 0
     
     
+    
     var clockhandsRight: Bool {
         return Config.hourHandAngleRange.contains(Int(abs(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(Int(abs(self.minuteHandAngle)))
     }
-    
-    
-    var _3to9Angle: Float {
-        let all3 = self.classifiedDigits.filter({$0.topPrediction.classification == "3"})
-        let all9 = self.classifiedDigits.filter({$0.topPrediction.classification == "9"})
-        var possibleAngles: [Float] = [0]
-        for threeDigit in all3 {
-            for nineDigit in all9 {
-                print("Angle found")
-                possibleAngles.append(180-abs(threeDigit.center.angleTo(nineDigit.center)))
-            }
-        }
-        return possibleAngles.min() ?? 0
+    var clockhandsAlmostRight: Bool {
+        return Config.hourHandAngleRange2.contains(Int(abs(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(Int(abs(self.minuteHandAngle)))
     }
-    var _12to6Angle: Float {
-        let all6 = self.classifiedDigits.filter({$0.topPrediction.classification == "6"})
-        let all12 = self.classifiedDigits.filter({$0.topPrediction.classification == "12"})
-        var possibleAngles: [Float] = [0]
-        for threeDigit in all6 {
-            for nineDigit in all12 {
-                print("Angle found")
-                possibleAngles.append(threeDigit.center.angleTo(nineDigit.center))
-            }
+    
+    
+    var horizontalConnectionLineAngle: Float? {
+        if let mostRightNumber = self.classifiedDigits.max(by: {$0.centerX > $1.centerX}), let mostLeftNumber = self.classifiedDigits.min(by: {$0.centerX > $1.centerX}) {
+            return 180-abs(mostLeftNumber.center.angleTo(mostRightNumber.center))
         }
-        return possibleAngles.min() ?? 0
+        return nil
+    }
+    var verticalConnectionLineAngle: Float? {
+        if let mostRightNumber = self.classifiedDigits.max(by: {$0.centerY > $1.centerY}), let mostLeftNumber = self.classifiedDigits.min(by: {$0.centerY > $1.centerY}) {
+            return abs(90-mostRightNumber.center.angleTo(mostLeftNumber.center))
+        }
+        return nil
+    }
+    
+    var horizontalConnectionLinePerfect: Bool {
+        if let angle = horizontalConnectionLineAngle {
+            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance)
+        }
+        return false
+    }
+        
+    var verticalConnectionLinePerfect: Bool {
+        if let angle = verticalConnectionLineAngle {
+            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance)
+        }
+        return false
+    }
+    
+    var horizontalConnectionLineOkay: Bool {
+        if let angle = horizontalConnectionLineAngle {
+            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance2)
+        }
+        return false
+    }
+        
+    var verticalConnectionLineOkay: Bool {
+        if let angle = verticalConnectionLineAngle {
+            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance2)
+        }
+        return false
     }
     
     var numbersFoundAtLeastOnce: Set<String> {
         return Set(self.classifiedDigits.compactMap({$0.topPrediction.classification}))
     }
     
+    var numbersFoundInRightSpot: Set<String> {
+        return Set(self.classifiedDigits.filter({$0.isInRightSpot}).compactMap({$0.topPrediction.classification}))
+    }
+    
 }
 
 extension AnalyzedClockResult {
     static var example: AnalyzedClockResult {
-        return AnalyzedClockResult(completeImage: UIImage(named: "clock")!, digitDetectionInvertedImage: UIImage(named: "clock")!, clockhandDetectionInvertedImage: UIImage(named: "clock")!, digitRectanlgeImage: UIImage(named: "clock")!, handsHoughTransformImage: UIImage(named: "clock")!, detectedHandsImage: UIImage(named: "clock")!, classifiedDigits: [ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "3", confidencePercentage: 0.55)], centerX: 0, centerY: 0), ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "3", confidencePercentage: 0.55)], centerX: 0, centerY: 0)], hourHandAngle: 120, minuteHandAngle: 30, secondsToComplete: 90, timesRestarted: 0)
+        let classifiedDigits = [
+            ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "3", confidencePercentage: 0.55)], centerX: 1000, centerY: 500),
+            ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "9", confidencePercentage: 0.55)], centerX: 0, centerY: 500),
+            ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "12", confidencePercentage: 0.55)], centerX: 500, centerY: 0),
+            ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "6", confidencePercentage: 0.55)], centerX: 500, centerY: 1000)
+        ]
+        
+        return AnalyzedClockResult(completeImage: UIImage(named: "clock")!, digitDetectionInvertedImage: UIImage(named: "clock")!, clockhandDetectionInvertedImage: UIImage(named: "clock")!, digitRectanlgeImage: UIImage(named: "clock")!, handsHoughTransformImage: UIImage(named: "clock")!, detectedHandsImage: UIImage(named: "clock")!, classifiedDigits: classifiedDigits, hourHandAngle: 120, minuteHandAngle: 12, secondsToComplete: 110, timesRestarted: 0)
     }
 }

@@ -13,6 +13,13 @@ extension View {
             view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
         }
     }
+    public func addBorder(_ content: Color, width: CGFloat = 1, cornerRadius: CGFloat, dash: Int = 0) -> some View {
+         let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
+            return clipShape(roundedRect)
+                .overlay(roundedRect.strokeBorder(style: dash == 0 ? StrokeStyle(lineWidth: width) : StrokeStyle(lineWidth: width, dash: [CGFloat(dash) * 5])).foregroundColor(content))
+        
+         
+     }
 }
 
 import SwiftUI

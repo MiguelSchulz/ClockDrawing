@@ -13,6 +13,10 @@ class Config {
     static var hourHandAngleRange = 102...138
     static var minuteHandAngleRange = 12...48
     
+    // ANGLES IN COMPARISON TO HORIZONTAL LINE IN WHICH CLOCKHANDS SHOULD BE CONSIDERED AS RIGHT (MINUTE NEEDS TO BE AT 30 AND HOUR NEEDS TO BE AT 120
+    static var hourHandAngleRange2 = 95...145
+    static var minuteHandAngleRange2 = 5...55
+    
     // MAKE DRAWN LINES THICKER OR THINNER FOR ANALYSIS
     static var changeLineWidthOfDrawingBy = 0
     
@@ -25,6 +29,9 @@ class Config {
     */
     static var quarterHandsSymmetrieAngleTolerance = 5
     static var quarterHandsSymmetrieAngleTolerance2 = 10
+    
+    static var maxSecondsForPerfectRating = 120
+    static var maxSecondsForSemiRating = 180
     
     
 }

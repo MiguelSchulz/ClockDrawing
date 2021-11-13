@@ -21,7 +21,7 @@ struct DrawAndClassifyClockView: View {
     var body: some View {
         VStack {
             NavigationLink(isActive: self.$showResult) {
-                NavigationLazyView(DebugResultView(analyzedResult: self.clockAnalyzer.analyzedResult, shouldPopToRootView: self.$rootIsActive))
+                NavigationLazyView(ResultView(shouldPopToRootView: self.$rootIsActive, clockAnalyzer: self.clockAnalyzer))
             } label: {
                 EmptyView()
             }.isDetailLink(false)
