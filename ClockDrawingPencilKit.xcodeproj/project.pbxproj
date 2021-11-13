@@ -1,0 +1,576 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910271A27098AD100BD929F /* PKDrawing+Extension.swift */; };
+		4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */; };
+		4977FC162707021C00214747 /* ClockDrawingPencilKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC152707021C00214747 /* ClockDrawingPencilKitApp.swift */; };
+		4977FC1A2707021E00214747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4977FC192707021E00214747 /* Assets.xcassets */; };
+		4977FC1D2707021E00214747 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4977FC1C2707021E00214747 /* Preview Assets.xcassets */; };
+		4977FC32270707AA00214747 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC31270707AA00214747 /* DrawingView.swift */; };
+		4977FC35270707FA00214747 /* PKToolPicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC34270707FA00214747 /* PKToolPicker+Extension.swift */; };
+		4977FC3A2707310000214747 /* GeometryGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC392707310000214747 /* GeometryGetter.swift */; };
+		4977FC3C2707513E00214747 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC3B2707513E00214747 /* UIImage+Extension.swift */; };
+		4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996A611272D56EA00B64DF4 /* View+Extension.swift */; };
+		4996A618272D5C0200B64DF4 /* MNISTClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */; };
+		4996A637272E96FE00B64DF4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A636272E96FE00B64DF4 /* AssetsLibrary.framework */; };
+		4996A639272E970300B64DF4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A638272E970300B64DF4 /* CoreGraphics.framework */; };
+		4996A63B272E970900B64DF4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A63A272E970900B64DF4 /* CoreMedia.framework */; };
+		4996A63D272E970D00B64DF4 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A63C272E970D00B64DF4 /* CoreFoundation.framework */; };
+		4996A63F272E971300B64DF4 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A63E272E971300B64DF4 /* Accelerate.framework */; };
+		4996A643272E976200B64DF4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A641272E974100B64DF4 /* opencv2.framework */; };
+		4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */; };
+		49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1A273FDA6A003D668E /* CircleScoreView.swift */; };
+		49D28A1D273FDCDF003D668E /* CriteriaListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */; };
+		49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1E273FDE5D003D668E /* ResultView.swift */; };
+		49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */; };
+		49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A22273FF5AE003D668E /* Int+Extension.swift */; };
+		49F6683E2737102F00177A65 /* Imgproc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683D2737102F00177A65 /* Imgproc+Extension.swift */; };
+		49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683F27374AC200177A65 /* Point2i+Extension.swift */; };
+		49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668412737D57600177A65 /* AnaylzedClockResult.swift */; };
+		49F668442737D5A800177A65 /* ClassifiedDigit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668432737D5A800177A65 /* ClassifiedDigit.swift */; };
+		49F668462737D60100177A65 /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668452737D60100177A65 /* Prediction.swift */; };
+		49F668482737D80000177A65 /* ClockAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668472737D80000177A65 /* ClockAnalyzer.swift */; };
+		49F6684A2737D9EA00177A65 /* MNISTImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668492737D9EA00177A65 /* MNISTImagePredictor.swift */; };
+		49F6684C2737DF7200177A65 /* DrawAndClassifyClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6684B2737DF7200177A65 /* DrawAndClassifyClockView.swift */; };
+		49F6684E2737EF8100177A65 /* StartClockTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6684D2737EF8100177A65 /* StartClockTestView.swift */; };
+		49F668502737F3A800177A65 /* NavigationView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6684F2737F3A800177A65 /* NavigationView+Extension.swift */; };
+		49F6685227381C9000177A65 /* DebugResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6685127381C9000177A65 /* DebugResultView.swift */; };
+		49F668542738267E00177A65 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668532738267E00177A65 /* Config.swift */; };
+		49F6685627388BC100177A65 /* Sequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6685527388BC100177A65 /* Sequence+Extension.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4910271A27098AD100BD929F /* PKDrawing+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKDrawing+Extension.swift"; sourceTree = "<group>"; };
+		4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
+		4977FC122707021C00214747 /* Clock Drawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clock Drawing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4977FC152707021C00214747 /* ClockDrawingPencilKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockDrawingPencilKitApp.swift; sourceTree = "<group>"; };
+		4977FC192707021E00214747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4977FC1C2707021E00214747 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4977FC31270707AA00214747 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		4977FC34270707FA00214747 /* PKToolPicker+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKToolPicker+Extension.swift"; sourceTree = "<group>"; };
+		4977FC392707310000214747 /* GeometryGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryGetter.swift; sourceTree = "<group>"; };
+		4977FC3B2707513E00214747 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		4978F9022739F14500F2C6BD /* ClockDrawingPencilKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClockDrawingPencilKit.entitlements; sourceTree = "<group>"; };
+		4978F903273AE89100F2C6BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4996A611272D56EA00B64DF4 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MNISTClassifier.mlmodel; path = ../../../../Downloads/MNISTClassifier.mlmodel; sourceTree = "<group>"; };
+		4996A636272E96FE00B64DF4 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		4996A638272E970300B64DF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4996A63A272E970900B64DF4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		4996A63C272E970D00B64DF4 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		4996A63E272E971300B64DF4 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		4996A641272E974100B64DF4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		4996A646272E97F900B64DF4 /* ClockDrawingPencilKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClockDrawingPencilKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		4996A647272E97F900B64DF4 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		4996A64A272E987B00B64DF4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		49D28A1A273FDA6A003D668E /* CircleScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleScoreView.swift; sourceTree = "<group>"; };
+		49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteriaListItemView.swift; sourceTree = "<group>"; };
+		49D28A1E273FDE5D003D668E /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteRoundedBackgroundViewModifier.swift; sourceTree = "<group>"; };
+		49D28A22273FF5AE003D668E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		49F6683D2737102F00177A65 /* Imgproc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Imgproc+Extension.swift"; sourceTree = "<group>"; };
+		49F6683F27374AC200177A65 /* Point2i+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Point2i+Extension.swift"; sourceTree = "<group>"; };
+		49F668412737D57600177A65 /* AnaylzedClockResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnaylzedClockResult.swift; sourceTree = "<group>"; };
+		49F668432737D5A800177A65 /* ClassifiedDigit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifiedDigit.swift; sourceTree = "<group>"; };
+		49F668452737D60100177A65 /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		49F668472737D80000177A65 /* ClockAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockAnalyzer.swift; sourceTree = "<group>"; };
+		49F668492737D9EA00177A65 /* MNISTImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MNISTImagePredictor.swift; sourceTree = "<group>"; };
+		49F6684B2737DF7200177A65 /* DrawAndClassifyClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawAndClassifyClockView.swift; sourceTree = "<group>"; };
+		49F6684D2737EF8100177A65 /* StartClockTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartClockTestView.swift; sourceTree = "<group>"; };
+		49F6684F2737F3A800177A65 /* NavigationView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationView+Extension.swift"; sourceTree = "<group>"; };
+		49F6685127381C9000177A65 /* DebugResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugResultView.swift; sourceTree = "<group>"; };
+		49F668532738267E00177A65 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		49F6685527388BC100177A65 /* Sequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extension.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4977FC0F2707021C00214747 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4996A63F272E971300B64DF4 /* Accelerate.framework in Frameworks */,
+				4996A63D272E970D00B64DF4 /* CoreFoundation.framework in Frameworks */,
+				4996A63B272E970900B64DF4 /* CoreMedia.framework in Frameworks */,
+				4996A643272E976200B64DF4 /* opencv2.framework in Frameworks */,
+				4996A639272E970300B64DF4 /* CoreGraphics.framework in Frameworks */,
+				4996A637272E96FE00B64DF4 /* AssetsLibrary.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4977FC092707021C00214747 = {
+			isa = PBXGroup;
+			children = (
+				4977FC142707021C00214747 /* ClockDrawingPencilKit */,
+				4977FC132707021C00214747 /* Products */,
+				4996A633272E96E700B64DF4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4977FC132707021C00214747 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4977FC122707021C00214747 /* Clock Drawing.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4977FC142707021C00214747 /* ClockDrawingPencilKit */ = {
+			isa = PBXGroup;
+			children = (
+				4978F903273AE89100F2C6BD /* Info.plist */,
+				4978F9022739F14500F2C6BD /* ClockDrawingPencilKit.entitlements */,
+				49F668532738267E00177A65 /* Config.swift */,
+				4996A641272E974100B64DF4 /* opencv2.framework */,
+				4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */,
+				4977FC38270730F500214747 /* Utility */,
+				4977FC33270707D800214747 /* Extensions */,
+				4977FC29270703B800214747 /* Model */,
+				4977FC232707023300214747 /* View */,
+				4977FC152707021C00214747 /* ClockDrawingPencilKitApp.swift */,
+				4977FC192707021E00214747 /* Assets.xcassets */,
+				4977FC1B2707021E00214747 /* Preview Content */,
+			);
+			path = ClockDrawingPencilKit;
+			sourceTree = "<group>";
+		};
+		4977FC1B2707021E00214747 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4977FC1C2707021E00214747 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4977FC232707023300214747 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				49D28A19273FDA5A003D668E /* ResultScreen */,
+				4977FC31270707AA00214747 /* DrawingView.swift */,
+				49F6684D2737EF8100177A65 /* StartClockTestView.swift */,
+				49F6684B2737DF7200177A65 /* DrawAndClassifyClockView.swift */,
+				49F6685127381C9000177A65 /* DebugResultView.swift */,
+				49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4977FC29270703B800214747 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				49F668412737D57600177A65 /* AnaylzedClockResult.swift */,
+				49F668432737D5A800177A65 /* ClassifiedDigit.swift */,
+				49F668452737D60100177A65 /* Prediction.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4977FC33270707D800214747 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				49F6683D2737102F00177A65 /* Imgproc+Extension.swift */,
+				4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */,
+				4977FC34270707FA00214747 /* PKToolPicker+Extension.swift */,
+				4977FC3B2707513E00214747 /* UIImage+Extension.swift */,
+				4910271A27098AD100BD929F /* PKDrawing+Extension.swift */,
+				4996A611272D56EA00B64DF4 /* View+Extension.swift */,
+				49F6683F27374AC200177A65 /* Point2i+Extension.swift */,
+				49F6684F2737F3A800177A65 /* NavigationView+Extension.swift */,
+				49F6685527388BC100177A65 /* Sequence+Extension.swift */,
+				49D28A22273FF5AE003D668E /* Int+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4977FC38270730F500214747 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4996A64B272E98AA00B64DF4 /* OpenCV */,
+				4977FC392707310000214747 /* GeometryGetter.swift */,
+				49F668472737D80000177A65 /* ClockAnalyzer.swift */,
+				49F668492737D9EA00177A65 /* MNISTImagePredictor.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		4996A633272E96E700B64DF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4996A63E272E971300B64DF4 /* Accelerate.framework */,
+				4996A63C272E970D00B64DF4 /* CoreFoundation.framework */,
+				4996A63A272E970900B64DF4 /* CoreMedia.framework */,
+				4996A638272E970300B64DF4 /* CoreGraphics.framework */,
+				4996A636272E96FE00B64DF4 /* AssetsLibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4996A64B272E98AA00B64DF4 /* OpenCV */ = {
+			isa = PBXGroup;
+			children = (
+				4996A647272E97F900B64DF4 /* OpenCVWrapper.h */,
+				4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */,
+				4996A646272E97F900B64DF4 /* ClockDrawingPencilKit-Bridging-Header.h */,
+				4996A64A272E987B00B64DF4 /* PrefixHeader.pch */,
+			);
+			path = OpenCV;
+			sourceTree = "<group>";
+		};
+		49D28A19273FDA5A003D668E /* ResultScreen */ = {
+			isa = PBXGroup;
+			children = (
+				49D28A1A273FDA6A003D668E /* CircleScoreView.swift */,
+				49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */,
+				49D28A1E273FDE5D003D668E /* ResultView.swift */,
+			);
+			path = ResultScreen;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4977FC112707021C00214747 /* ClockDrawingPencilKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4977FC202707021E00214747 /* Build configuration list for PBXNativeTarget "ClockDrawingPencilKit" */;
+			buildPhases = (
+				4977FC0E2707021C00214747 /* Sources */,
+				4977FC0F2707021C00214747 /* Frameworks */,
+				4977FC102707021C00214747 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClockDrawingPencilKit;
+			packageProductDependencies = (
+			);
+			productName = ClockDrawingPencilKit;
+			productReference = 4977FC122707021C00214747 /* Clock Drawing.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4977FC0A2707021C00214747 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					4977FC112707021C00214747 = {
+						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
+					};
+				};
+			};
+			buildConfigurationList = 4977FC0D2707021C00214747 /* Build configuration list for PBXProject "ClockDrawingPencilKit" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4977FC092707021C00214747;
+			packageReferences = (
+			);
+			productRefGroup = 4977FC132707021C00214747 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4977FC112707021C00214747 /* ClockDrawingPencilKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4977FC102707021C00214747 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4977FC1D2707021E00214747 /* Preview Assets.xcassets in Resources */,
+				4977FC1A2707021E00214747 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4977FC0E2707021C00214747 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */,
+				49F6685227381C9000177A65 /* DebugResultView.swift in Sources */,
+				49F668442737D5A800177A65 /* ClassifiedDigit.swift in Sources */,
+				4977FC3A2707310000214747 /* GeometryGetter.swift in Sources */,
+				4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */,
+				49F668482737D80000177A65 /* ClockAnalyzer.swift in Sources */,
+				49F6684A2737D9EA00177A65 /* MNISTImagePredictor.swift in Sources */,
+				49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */,
+				49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */,
+				4977FC3C2707513E00214747 /* UIImage+Extension.swift in Sources */,
+				4977FC35270707FA00214747 /* PKToolPicker+Extension.swift in Sources */,
+				49F6683E2737102F00177A65 /* Imgproc+Extension.swift in Sources */,
+				49F6684E2737EF8100177A65 /* StartClockTestView.swift in Sources */,
+				49F668462737D60100177A65 /* Prediction.swift in Sources */,
+				49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */,
+				49F6685627388BC100177A65 /* Sequence+Extension.swift in Sources */,
+				49F668502737F3A800177A65 /* NavigationView+Extension.swift in Sources */,
+				49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */,
+				4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */,
+				4977FC162707021C00214747 /* ClockDrawingPencilKitApp.swift in Sources */,
+				49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */,
+				49F668542738267E00177A65 /* Config.swift in Sources */,
+				49F6684C2737DF7200177A65 /* DrawAndClassifyClockView.swift in Sources */,
+				4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */,
+				4977FC32270707AA00214747 /* DrawingView.swift in Sources */,
+				49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */,
+				49D28A1D273FDCDF003D668E /* CriteriaListItemView.swift in Sources */,
+				4996A618272D5C0200B64DF4 /* MNISTClassifier.mlmodel in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4977FC1E2707021E00214747 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4977FC1F2707021E00214747 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4977FC212707021E00214747 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClockDrawingPencilKit/ClockDrawingPencilKit.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_ASSET_PATHS = "\"ClockDrawingPencilKit/Preview Content\"";
+				DEVELOPMENT_TEAM = RW3BM2X89S;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ClockDrawingPencilKit",
+					"(PROJECT_DIR)/",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ClockDrawingPencilKit/Utility/OpenCV/PrefixHeader.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClockDrawingPencilKit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app wants to access your camera to perfom Computer Vision on it";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants to access your photo library to save and load images for clock detection";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
+				PRODUCT_NAME = "Clock Drawing";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClockDrawingPencilKit/Utility/OpenCV/ClockDrawingPencilKit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4977FC222707021E00214747 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ClockDrawingPencilKit/ClockDrawingPencilKit.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_ASSET_PATHS = "\"ClockDrawingPencilKit/Preview Content\"";
+				DEVELOPMENT_TEAM = RW3BM2X89S;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ClockDrawingPencilKit",
+					"(PROJECT_DIR)/",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ClockDrawingPencilKit/Utility/OpenCV/PrefixHeader.pch";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClockDrawingPencilKit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app wants to access your camera to perfom Computer Vision on it";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app wants to access your photo library to save and load images for clock detection";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
+				PRODUCT_NAME = "Clock Drawing";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClockDrawingPencilKit/Utility/OpenCV/ClockDrawingPencilKit-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4977FC0D2707021C00214747 /* Build configuration list for PBXProject "ClockDrawingPencilKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4977FC1E2707021E00214747 /* Debug */,
+				4977FC1F2707021E00214747 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4977FC202707021E00214747 /* Build configuration list for PBXNativeTarget "ClockDrawingPencilKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4977FC212707021E00214747 /* Debug */,
+				4977FC222707021E00214747 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4977FC0A2707021C00214747 /* Project object */;
+}
