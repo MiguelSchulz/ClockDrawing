@@ -17,7 +17,7 @@ enum CriteriaRating: String {
     }
     
     private var color: Color {
-        switch self {
+        switch self {
         case .right:
             return Color(.systemGreen)
         case .unsure:
@@ -31,12 +31,12 @@ enum CriteriaRating: String {
 struct CriteriaListItemView: View {
 
     var criteriaRating = CriteriaRating.right
-    var explanation = "You passed because of blablabla"
+    var explanation = "You passed because of blablabla  blablabla  blablabla  blablabla  blablabla  blablabla  blablabla  blablabla  blablabla  blablabla "
     
     var body: some View {
         HStack {
             criteriaRating.symbol
-            Text(explanation)
+            Text(explanation).lineLimit(nil).fixedSize(horizontal: false, vertical: true)
         }
     }
 }

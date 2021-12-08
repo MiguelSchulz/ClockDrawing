@@ -13,6 +13,7 @@ struct DrawingView: UIViewRepresentable {
     
     var ignoreDarkmode = false
     @Binding var drawing: PKDrawing
+    @Binding var firstStrokeDate: Date?
     
     func makeUIView(context: Context) -> PKCanvasView {
         let canvas = PKCanvasView()
@@ -26,7 +27,7 @@ struct DrawingView: UIViewRepresentable {
         canvas.delegate = context.coordinator
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            canvas.tool = PKInkingTool(.pen, color: .black, width: 12)
+            canvas.tool = PKInkingTool(.pen, color: .black, width: 7)
         }
         
         canvas.becomeFirstResponder()
@@ -66,12 +67,12 @@ struct DrawingView: UIViewRepresentable {
         }
         
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-           // if(!parent.programChange.programChange) {
-               // parent.drawing = canvasView.drawing
             DispatchQueue.main.async {
+                if self.parent.firstStrokeDate == nil {
+                    self.parent.firstStrokeDate = Date()
+                }
                 self.parent.drawing = canvasView.drawing
             }
-            //}
         }
         
        

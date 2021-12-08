@@ -11,10 +11,23 @@ import opencv2
 extension Imgproc {
     
     static func resizeAndPad(img: Mat, size: Size2i, padColor: Int32 = 0) -> Mat {
-        let h = img.height()
-        let w = img.width()
+        var h = img.height()
+        var w = img.width()
         let sh = size.height
         let sw = size.width
+        let imgDraw = img.clone()
+        
+        if h <= sh {
+            let differencePerSide: Int32 = (sh-h) / 2
+            Core.copyMakeBorder(src: imgDraw, dst: imgDraw, top: differencePerSide, bottom: differencePerSide, left: 0, right: 0, borderType: opencv2.BorderTypes.BORDER_CONSTANT, value: Scalar(Double(padColor)))
+            h += differencePerSide * 2
+        }
+        if w <= sw {
+            let differencePerSide: Int32 = (sw-w) / 2
+            Core.copyMakeBorder(src: imgDraw, dst: imgDraw, top: 0, bottom: 0, left: differencePerSide, right: differencePerSide, borderType: opencv2.BorderTypes.BORDER_CONSTANT, value: Scalar(Double(padColor)))
+            w += differencePerSide * 2
+        }
+        
         var interp = opencv2.InterpolationFlags.INTER_CUBIC
         if h > sh || w > sw {
             interp = opencv2.InterpolationFlags.INTER_AREA
@@ -45,7 +58,7 @@ extension Imgproc {
         }
         
         let scaled_image = Mat()
-        Imgproc.resize(src: img, dst: scaled_image, dsize: Size2i(width: new_w-2, height: new_h-2), fx: 0, fy: 0, interpolation: interp.rawValue)
+        Imgproc.resize(src: imgDraw, dst: scaled_image, dsize: Size2i(width: new_w-2, height: new_h-2), fx: 0, fy: 0, interpolation: interp.rawValue)
         Core.copyMakeBorder(src: scaled_image, dst: scaled_image, top: pad_top+2, bottom: pad_bot+2, left: pad_left+2, right: pad_right+2, borderType: opencv2.BorderTypes.BORDER_CONSTANT, value: Scalar(Double(padColor)))
         return scaled_image
     }

@@ -10,16 +10,15 @@ import opencv2
 
 struct AnalyzedClockResult {
     
+    var score = 0
+    
     var clockSize = Size2i(width: 0, height: 0)
     
     var completeImage = UIImage()
-    var digitDetectionInvertedImage = UIImage()
-    var clockhandDetectionInvertedImage = UIImage()
     
-    var digitRectanlgeImage = UIImage()
-    var handsHoughTransformImage = UIImage()
-    var detectedHandsImage = UIImage()
     var classifiedDigits = [ClassifiedDigit]()
+    
+    var houghLines = Mat()
     
     var hourHandAngle: Float = 0
     var minuteHandAngle: Float = 0
@@ -30,50 +29,60 @@ struct AnalyzedClockResult {
     
     
     var clockhandsRight: Bool {
-        return Config.hourHandAngleRange.contains(Int(abs(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(Int(abs(self.minuteHandAngle)))
+        return Config.hourHandAngleRange.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(abs(Int32(self.minuteHandAngle)))
     }
     var clockhandsAlmostRight: Bool {
-        return Config.hourHandAngleRange2.contains(Int(abs(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(Int(abs(self.minuteHandAngle)))
+        return Config.hourHandAngleRange2.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(abs(Int32(self.minuteHandAngle)))
     }
     
     
     var horizontalConnectionLineAngle: Float? {
         if let mostRightNumber = self.classifiedDigits.max(by: {$0.centerX > $1.centerX}), let mostLeftNumber = self.classifiedDigits.min(by: {$0.centerX > $1.centerX}) {
-            return 180-abs(mostLeftNumber.center.angleTo(mostRightNumber.center))
+            
+            let angle = mostLeftNumber.center.angleTo(mostRightNumber.center)
+            
+            if angle < 0 {
+                return angle + 180
+            }
+            return angle - 180
         }
         return nil
     }
     var verticalConnectionLineAngle: Float? {
         if let mostRightNumber = self.classifiedDigits.max(by: {$0.centerY > $1.centerY}), let mostLeftNumber = self.classifiedDigits.min(by: {$0.centerY > $1.centerY}) {
-            return abs(90-mostRightNumber.center.angleTo(mostLeftNumber.center))
+            return mostRightNumber.center.angleTo(mostLeftNumber.center) - 90
         }
         return nil
     }
     
     var horizontalConnectionLinePerfect: Bool {
         if let angle = horizontalConnectionLineAngle {
-            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance)
+            let tolerance = Float(Config.quarterHandsSymmetrieAngleTolerance)
+            return (-tolerance...tolerance).contains(angle)
         }
         return false
     }
         
     var verticalConnectionLinePerfect: Bool {
         if let angle = verticalConnectionLineAngle {
-            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance)
+            let tolerance = Float(Config.quarterHandsSymmetrieAngleTolerance)
+            return (-tolerance...tolerance).contains(angle)
         }
         return false
     }
     
     var horizontalConnectionLineOkay: Bool {
         if let angle = horizontalConnectionLineAngle {
-            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance2)
+            let tolerance = Float(Config.quarterHandsSymmetrieAngleTolerance2)
+            return (-tolerance...tolerance).contains(angle)
         }
         return false
     }
         
     var verticalConnectionLineOkay: Bool {
         if let angle = verticalConnectionLineAngle {
-            return angle <= Float(Config.quarterHandsSymmetrieAngleTolerance2)
+            let tolerance = Float(Config.quarterHandsSymmetrieAngleTolerance2)
+            return (-tolerance...tolerance).contains(angle)
         }
         return false
     }
@@ -84,6 +93,17 @@ struct AnalyzedClockResult {
     
     var numbersFoundInRightSpot: Set<String> {
         return Set(self.classifiedDigits.filter({$0.isInRightSpot}).compactMap({$0.topPrediction.classification}))
+    }
+    
+    var allShortestDistancesBetweenDigits = [Float]()
+    var digitDistancesMean: Float {
+        return allShortestDistancesBetweenDigits.avg()
+    }
+    var digitDistancesStd: Float {
+        return allShortestDistancesBetweenDigits.std()
+    }
+    var digitDistanceVariationCoefficient: Float {
+        return digitDistancesStd / digitDistancesMean
     }
     
 }
@@ -97,6 +117,6 @@ extension AnalyzedClockResult {
             ClassifiedDigit(digitImage: UIImage(named: "clock")!, predictions: [Prediction(classification: "6", confidencePercentage: 0.55)], centerX: 500, centerY: 1000)
         ]
         
-        return AnalyzedClockResult(completeImage: UIImage(named: "clock")!, digitDetectionInvertedImage: UIImage(named: "clock")!, clockhandDetectionInvertedImage: UIImage(named: "clock")!, digitRectanlgeImage: UIImage(named: "clock")!, handsHoughTransformImage: UIImage(named: "clock")!, detectedHandsImage: UIImage(named: "clock")!, classifiedDigits: classifiedDigits, hourHandAngle: 120, minuteHandAngle: 12, secondsToComplete: 110, timesRestarted: 0)
+        return AnalyzedClockResult(completeImage: UIImage(named: "clock")!, classifiedDigits: classifiedDigits, hourHandAngle: 120, minuteHandAngle: 12, secondsToComplete: 110, timesRestarted: 0)
     }
 }

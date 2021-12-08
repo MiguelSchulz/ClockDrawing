@@ -27,8 +27,8 @@ struct DrawAndClassifyClockView: View {
             }.isDetailLink(false)
 
             ZStack {
-                Circle().stroke(Color.black, lineWidth: 3).padding(10)
-                DrawingView(drawing: self.$drawing)
+                Circle().stroke(Color.black, lineWidth: 2).padding(10)
+                DrawingView(drawing: self.$drawing, firstStrokeDate: self.$clockAnalyzer.firstStrokeDate)
             }.aspectRatio(1, contentMode: .fit).background(GeometryGetter(rect: self.$drawingRect))
             Spacer()
             HStack {
@@ -39,7 +39,7 @@ struct DrawAndClassifyClockView: View {
                     Text("Clear Clock").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.red.cornerRadius(20))
                 }.buttonStyle(PlainButtonStyle()).padding()
                 Button {
-                    clockAnalyzer.startAnalysis(clockImage: generateClockImage(), onCompletion: {
+                    clockAnalyzer.startAnalysis(clockImage: generateClockImage(), fatClockImage: generateFatClockImage(), onCompletion: {
                         self.showResult = true
                     })
                 } label: {
@@ -48,12 +48,16 @@ struct DrawAndClassifyClockView: View {
                 
                 
             }
-        }.padding(50)
+        }.padding(UIDevice.current.userInterfaceIdiom == .pad ? 50 : 10)
             .navigationBarHidden(true)
             
     }
     
     func generateClockImage() -> UIImage {
+        return drawing.image(from: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: drawingRect.size.width, height: drawingRect.size.height)), scale: 1)
+    }
+    
+    func generateFatClockImage() -> UIImage {
         return drawing.changeLineWidth(by: CGFloat(Config.changeLineWidthOfDrawingBy)).image(from: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: drawingRect.size.width, height: drawingRect.size.height)), scale: 1)
     }
 }

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/*
 struct DebugResultView: View {
     
     @State var analyzedResult: AnalyzedClockResult
@@ -104,3 +104,4 @@ struct DebugResultView_Previews: PreviewProvider {
         DebugResultView(analyzedResult: AnalyzedClockResult.example, shouldPopToRootView: .constant(false))
     }
 }
+*/

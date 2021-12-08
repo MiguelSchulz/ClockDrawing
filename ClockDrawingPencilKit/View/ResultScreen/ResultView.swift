@@ -7,34 +7,39 @@
 
 import SwiftUI
 
+enum ShowModal {
+    case first
+    case second
+    case third
+    case fourth
+    case fifth
+}
+
 struct ResultView: View {
     
     @Binding var shouldPopToRootView: Bool
     @ObservedObject var clockAnalyzer: ClockAnalyzer
+    
+    @State var showModal = false
+    @State var modal = ShowModal.first
     
     var body: some View {
         ZStack {
             Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)
             ScrollView {
                 VStack(alignment: .leading, spacing: 5) {
-                    ZStack {
-                        Circle().stroke(Color.black, lineWidth: 3).padding(10)
-                        Image(uiImage: self.clockAnalyzer.analyzedResult.completeImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(10)
-                            .frame(maxHeight: 500)
-                    }
+                    CircleDrawingImageOverlay(image: self.clockAnalyzer.analyzedResult.completeImage).frame(maxHeight: 500)
+                    
                     Text("Result:").font(.title).fontWeight(.semibold)
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         HStack {
-                            CircleScoreView(score: 1).frame(width: 250, height: 250)
+                            CircleScoreView(score: self.clockAnalyzer.analyzedResult.score).frame(width: 250, height: 250)
                             Spacer()
                             detailedAnalysis
                         }.whiteRoundedBackground()
                     } else {
                         VStack {
-                            CircleScoreView(score: 1).frame(width: 250, height: 250)
+                            CircleScoreView(score: self.clockAnalyzer.analyzedResult.score).frame(width: 250, height: 250)
                             detailedAnalysis
                         }.whiteRoundedBackground()
                     }
@@ -45,7 +50,34 @@ struct ResultView: View {
                     Text("Restart Test").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.green.cornerRadius(20))
                 }.buttonStyle(PlainButtonStyle()).padding()
             }
-        }.navigationBarHidden(true)
+        }.navigationBarHidden(true).sheet(isPresented: self.$showModal) {
+            NavigationView {
+                Group {
+                    switch modal {
+                    case .first: NumbersFoundAnalysisView(clockAnalyzer: self.clockAnalyzer)
+                    case .second: NumbersAtRightPlaceView(clockAnalyzer: self.clockAnalyzer)
+                    case .third: HorizontalAndVerticalSymmetrieDigitView(clockAnalyzer: self.clockAnalyzer)
+                    case .fourth: NeighborDigitsAnalysisView(clockAnalyzer: self.clockAnalyzer)
+                    case .fifth: ClockhandsAnalysisView(clockAnalyzer: self.clockAnalyzer)
+                    default:
+                        Text("")
+                    }
+                }.toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showModal = false
+                        } label: {
+                            Text("Close")
+                        }
+                    }
+                }
+                .navigationBarTitle("", displayMode: .inline)
+            }.navigationViewStyle(StackNavigationViewStyle())
+            
+            
+        }
+        .onChange(of: showModal, perform: {_ in})
+        .onChange(of: modal, perform: {_ in})
         
     }
     
@@ -60,9 +92,18 @@ struct ResultView: View {
             }
             VStack(alignment: .leading) {
                 Text("Symmetrie:").font(.headline).padding(.vertical, 10)
-                horizontalAngleCorrect
+                Button {
+                    modal = .third
+                    self.showModal = true
+                } label: {
+                    VStack(alignment: .leading) {
+                        horizontalAngleCorrect
+                        Divider()
+                        verticalAngleCorrect
+                    }
+                }.buttonStyle(PlainButtonStyle())
                 Divider()
-                verticalAngleCorrect
+                digitDistances
             }
             VStack(alignment: .leading) {
                 Text("Clockhands:").font(.headline).padding(.vertical, 10)
@@ -85,14 +126,20 @@ struct ResultView: View {
         let foundNumbers = self.clockAnalyzer.analyzedResult.numbersFoundAtLeastOnce.count
         var criteria = CriteriaRating.right
         switch foundNumbers {
-            case let x where x >= 10:
+            case let x where x >= Config.minNumbersFoundForPerfectRating:
             criteria = .right
-            case let x where x >= 6:
+            case let x where x >= Config.minNumbersFoundForOkayRating:
             criteria = .unsure
             default:
             criteria = .wrong
         }
-        return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        /*return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+            CriteriaListItemView(criteriaRating: criteria, explanation: "\(foundNumbers) out of 12 digits were recognized at least once")
+        }.buttonStyle(PlainButtonStyle())*/
+        return Button {
+            modal = .first
+            self.showModal = true
+        } label: {
             CriteriaListItemView(criteriaRating: criteria, explanation: "\(foundNumbers) out of 12 digits were recognized at least once")
         }.buttonStyle(PlainButtonStyle())
     }
@@ -102,14 +149,17 @@ struct ResultView: View {
         let foundNumbersRightPosition = self.clockAnalyzer.analyzedResult.numbersFoundInRightSpot.count
         var criteria = CriteriaRating.right
         switch foundNumbersRightPosition {
-            case let x where x >= 10:
+            case let x where x >= Config.minNumbersInRightPositionForPerfectRating:
             criteria = .right
-            case let x where x >= 6:
+            case let x where x >= Config.minNumbersInRightPositionForOkayRating:
             criteria = .unsure
             default:
             criteria = .wrong
         }
-        return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        return Button {
+            modal = .second
+            self.showModal = true
+        } label: {
             CriteriaListItemView(criteriaRating: criteria, explanation: "\(foundNumbersRightPosition) out of these \(foundNumbers) digits are in the right place")
         }.buttonStyle(PlainButtonStyle())
     }
@@ -121,9 +171,16 @@ struct ResultView: View {
         } else if self.clockAnalyzer.analyzedResult.verticalConnectionLineOkay {
             criteria = .unsure
         }
-        return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        return Group {
             if let angleVertical = self.clockAnalyzer.analyzedResult.verticalConnectionLineAngle {
-                CriteriaListItemView(criteriaRating: criteria, explanation: "The connection line between the numbers on the 0 and 30 minute marks has an angle of \(String(format: "%.1f", angleVertical))° in comparison to a perfectly straight line")
+                HStack {
+                    CriteriaListItemView(criteriaRating: criteria, explanation: "The connection line between the numbers on the 0 and 30 minute marks has an angle of \(String(format: "%.1f", angleVertical))° in comparison to a perfectly straight line")
+                    Spacer()
+                    ZStack {
+                        Circle().stroke(Color.black, lineWidth: 1)
+                        Color.red.frame(width: 3).rotationEffect(.degrees(Double(angleVertical)))
+                    }.frame(width: 50, height: 50)
+                }
             } else {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "No numbers were found that could be used to determine the vertical symmetry of the clock")
             }
@@ -137,21 +194,49 @@ struct ResultView: View {
         } else if self.clockAnalyzer.analyzedResult.horizontalConnectionLineOkay {
             criteria = .unsure
         }
-        return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        return Group {
             if let angleHorizontal = self.clockAnalyzer.analyzedResult.horizontalConnectionLineAngle {
-                CriteriaListItemView(criteriaRating: criteria, explanation: "The connection line between the numbers on the 15 and 45 minute marks has an angle of \(String(format: "%.1f", angleHorizontal))° in comparison to a perfectly straight line")
+                HStack {
+                    CriteriaListItemView(criteriaRating: criteria, explanation: "The connection line between the numbers on the 15 and 45 minute marks has an angle of \(String(format: "%.1f", angleHorizontal))° in comparison to a perfectly straight line")
+                    Spacer()
+                    ZStack {
+                        Circle().stroke(Color.black, lineWidth: 1)
+                        Color.red.frame(height: 3).rotationEffect(.degrees(Double(angleHorizontal)))
+                    }.frame(width: 50, height: 50)
+                }
             } else {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "No numbers were found that could be used to determine the horizontal symmetry of the clock")
             }
         }.buttonStyle(PlainButtonStyle())
     }
     
+    var digitDistances: some View {
+        let variationCoefficient = self.clockAnalyzer.analyzedResult.digitDistanceVariationCoefficient
+        var criteria = CriteriaRating.wrong
+        if variationCoefficient <= Config.digitDistanceVariationCoefficient {
+            criteria = .right
+        } else if variationCoefficient <= Config.digitDistanceVariationCoefficient2 {
+            criteria = .unsure
+        }
+        
+        return Button {
+            modal = .fourth
+            self.showModal = true
+        } label: {
+            CriteriaListItemView(criteriaRating: criteria, explanation: "When comparing the distance between neighboring digits, the coefficient of variation is \(String(format: "%.1f", variationCoefficient*100))% (lower is better)")
+            
+        }.buttonStyle(PlainButtonStyle())
+    }
+    
     var clockhandsRight: some View {
-        NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        Button {
+            self.modal = .fifth
+            self.showModal = true
+        } label: {
             if self.clockAnalyzer.analyzedResult.clockhandsRight {
                 CriteriaListItemView(criteriaRating: .right, explanation: "The clock hands show the time '10 past 11' correctly")
             } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight {
-                CriteriaListItemView(criteriaRating: .unsure, explanation: "The clock hands probably show the time '10 past 11' correctly, but are not in exactly the right position")
+                CriteriaListItemView(criteriaRating: .unsure, explanation: "The clock hands could show the time '10 past 11' correctly, but are not in exactly the right position")
             } else {
                 CriteriaListItemView(criteriaRating: .wrong, explanation: "The clock hands do not show the time '10 past 11' correctly")
             }
@@ -159,7 +244,9 @@ struct ResultView: View {
     }
     
     var timesRestartedDetail: some View {
-        NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        Button {
+            
+        } label: {
             if self.clockAnalyzer.analyzedResult.timesRestarted == 0 {
                 CriteriaListItemView(criteriaRating: .right, explanation: "The clock was deleted 0 times and drawn in the first attempt")
             } else if self.clockAnalyzer.analyzedResult.timesRestarted == 1 {
@@ -175,17 +262,18 @@ struct ResultView: View {
         
         var criteria = CriteriaRating.right
         switch self.clockAnalyzer.analyzedResult.secondsToComplete {
-            case let x where x <= 120:
+            case let x where x <= Config.maxSecondsForPerfectRating:
             criteria = .right
-            case let x where x <= 180:
+            case let x where x <= Config.maxSecondsForSemiRating:
             criteria = .unsure
             default:
             criteria = .wrong
         }
         
-        return NavigationLink(destination: NavigationLazyView(Text("Todo"))) {
+        return Button {
             
-                CriteriaListItemView(criteriaRating: criteria, explanation: "It took \(minutes) minutes and \(seconds) seconds from the first stroke to finish the clock")
+        } label: {
+            CriteriaListItemView(criteriaRating: criteria, explanation: "It took \(minutes) minutes and \(seconds) seconds from the first stroke to finish the clock")
 
         }.buttonStyle(PlainButtonStyle())
     }
@@ -195,11 +283,11 @@ struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
         let clockAnalyzer = ClockAnalyzer()
         clockAnalyzer.analyzedResult = AnalyzedClockResult.example
-        return NavigationView {
+        return Group {
             ResultView(shouldPopToRootView: .constant(false), clockAnalyzer: clockAnalyzer)
-                .previewDevice("iPad Pro")
-            ResultView(shouldPopToRootView: .constant(false), clockAnalyzer: clockAnalyzer)
-                .previewDevice("iPhone 12 Pro")
+                .previewDevice("iPad Pro (11-inch) (3rd generation)")
+            //ResultView(shouldPopToRootView: .constant(false), clockAnalyzer: clockAnalyzer)
+               // .previewDevice("iPhone 12 Pro")
         }
     }
 }

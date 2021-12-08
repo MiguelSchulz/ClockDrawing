@@ -30,4 +30,5 @@ struct ClassifiedDigit: Identifiable, Equatable {
         return Point2i(x: Int32(centerX), y: Int32(centerY))
     }
     
+    
 }

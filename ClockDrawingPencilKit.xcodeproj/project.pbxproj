@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910271A27098AD100BD929F /* PKDrawing+Extension.swift */; };
 		4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */; };
+		4924C3A527415E8900A05E81 /* NumbersFoundAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3A427415E8900A05E81 /* NumbersFoundAnalysisView.swift */; };
+		4924C3A7274161EA00A05E81 /* NumbersAtRightPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3A6274161EA00A05E81 /* NumbersAtRightPlaceView.swift */; };
+		4924C3A92741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3A82741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift */; };
+		4924C3AB2741898E00A05E81 /* NeighborDigitsAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3AA2741898E00A05E81 /* NeighborDigitsAnalysisView.swift */; };
+		4924C3AD27418BEF00A05E81 /* ClockhandsAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3AC27418BEF00A05E81 /* ClockhandsAnalysisView.swift */; };
+		4924C3AF27418FBA00A05E81 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3AE27418FBA00A05E81 /* ConfigView.swift */; };
 		4977FC162707021C00214747 /* ClockDrawingPencilKitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC152707021C00214747 /* ClockDrawingPencilKitApp.swift */; };
 		4977FC1A2707021E00214747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4977FC192707021E00214747 /* Assets.xcassets */; };
 		4977FC1D2707021E00214747 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4977FC1C2707021E00214747 /* Preview Assets.xcassets */; };
@@ -16,6 +22,7 @@
 		4977FC35270707FA00214747 /* PKToolPicker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC34270707FA00214747 /* PKToolPicker+Extension.swift */; };
 		4977FC3A2707310000214747 /* GeometryGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC392707310000214747 /* GeometryGetter.swift */; };
 		4977FC3C2707513E00214747 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977FC3B2707513E00214747 /* UIImage+Extension.swift */; };
+		4990F2BA274117E300FB42C1 /* CircleDrawingImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4990F2B9274117E300FB42C1 /* CircleDrawingImageOverlay.swift */; };
 		4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996A611272D56EA00B64DF4 /* View+Extension.swift */; };
 		4996A618272D5C0200B64DF4 /* MNISTClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */; };
 		4996A637272E96FE00B64DF4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A636272E96FE00B64DF4 /* AssetsLibrary.framework */; };
@@ -30,6 +37,7 @@
 		49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1E273FDE5D003D668E /* ResultView.swift */; };
 		49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */; };
 		49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A22273FF5AE003D668E /* Int+Extension.swift */; };
+		49D28A252740729F003D668E /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A242740729F003D668E /* Array+Extension.swift */; };
 		49F6683E2737102F00177A65 /* Imgproc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683D2737102F00177A65 /* Imgproc+Extension.swift */; };
 		49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683F27374AC200177A65 /* Point2i+Extension.swift */; };
 		49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668412737D57600177A65 /* AnaylzedClockResult.swift */; };
@@ -48,6 +56,12 @@
 /* Begin PBXFileReference section */
 		4910271A27098AD100BD929F /* PKDrawing+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKDrawing+Extension.swift"; sourceTree = "<group>"; };
 		4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
+		4924C3A427415E8900A05E81 /* NumbersFoundAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersFoundAnalysisView.swift; sourceTree = "<group>"; };
+		4924C3A6274161EA00A05E81 /* NumbersAtRightPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersAtRightPlaceView.swift; sourceTree = "<group>"; };
+		4924C3A82741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalAndVerticalSymmetrieDigitView.swift; sourceTree = "<group>"; };
+		4924C3AA2741898E00A05E81 /* NeighborDigitsAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeighborDigitsAnalysisView.swift; sourceTree = "<group>"; };
+		4924C3AC27418BEF00A05E81 /* ClockhandsAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockhandsAnalysisView.swift; sourceTree = "<group>"; };
+		4924C3AE27418FBA00A05E81 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 		4977FC122707021C00214747 /* Clock Drawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clock Drawing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4977FC152707021C00214747 /* ClockDrawingPencilKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockDrawingPencilKitApp.swift; sourceTree = "<group>"; };
 		4977FC192707021E00214747 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +72,7 @@
 		4977FC3B2707513E00214747 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4978F9022739F14500F2C6BD /* ClockDrawingPencilKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClockDrawingPencilKit.entitlements; sourceTree = "<group>"; };
 		4978F903273AE89100F2C6BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4990F2B9274117E300FB42C1 /* CircleDrawingImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDrawingImageOverlay.swift; sourceTree = "<group>"; };
 		4996A611272D56EA00B64DF4 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MNISTClassifier.mlmodel; path = ../../../../Downloads/MNISTClassifier.mlmodel; sourceTree = "<group>"; };
 		4996A636272E96FE00B64DF4 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -75,6 +90,7 @@
 		49D28A1E273FDE5D003D668E /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteRoundedBackgroundViewModifier.swift; sourceTree = "<group>"; };
 		49D28A22273FF5AE003D668E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		49D28A242740729F003D668E /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		49F6683D2737102F00177A65 /* Imgproc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Imgproc+Extension.swift"; sourceTree = "<group>"; };
 		49F6683F27374AC200177A65 /* Point2i+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Point2i+Extension.swift"; sourceTree = "<group>"; };
 		49F668412737D57600177A65 /* AnaylzedClockResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnaylzedClockResult.swift; sourceTree = "<group>"; };
@@ -107,6 +123,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4924C3A327415E6D00A05E81 /* DetailedAnalysisViews */ = {
+			isa = PBXGroup;
+			children = (
+				4924C3A427415E8900A05E81 /* NumbersFoundAnalysisView.swift */,
+				4924C3A6274161EA00A05E81 /* NumbersAtRightPlaceView.swift */,
+				4924C3A82741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift */,
+				4924C3AA2741898E00A05E81 /* NeighborDigitsAnalysisView.swift */,
+				4924C3AC27418BEF00A05E81 /* ClockhandsAnalysisView.swift */,
+			);
+			path = DetailedAnalysisViews;
+			sourceTree = "<group>";
+		};
+		4924C3B0274199BD00A05E81 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		4977FC092707021C00214747 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +189,9 @@
 		4977FC232707023300214747 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4924C3B0274199BD00A05E81 /* Debug */,
+				4924C3AE27418FBA00A05E81 /* ConfigView.swift */,
+				4924C3A327415E6D00A05E81 /* DetailedAnalysisViews */,
 				49D28A19273FDA5A003D668E /* ResultScreen */,
 				4977FC31270707AA00214747 /* DrawingView.swift */,
 				49F6684D2737EF8100177A65 /* StartClockTestView.swift */,
@@ -187,6 +225,7 @@
 				49F6684F2737F3A800177A65 /* NavigationView+Extension.swift */,
 				49F6685527388BC100177A65 /* Sequence+Extension.swift */,
 				49D28A22273FF5AE003D668E /* Int+Extension.swift */,
+				49D28A242740729F003D668E /* Array+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -230,6 +269,7 @@
 			children = (
 				49D28A1A273FDA6A003D668E /* CircleScoreView.swift */,
 				49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */,
+				4990F2B9274117E300FB42C1 /* CircleDrawingImageOverlay.swift */,
 				49D28A1E273FDE5D003D668E /* ResultView.swift */,
 			);
 			path = ResultScreen;
@@ -311,13 +351,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */,
+				4990F2BA274117E300FB42C1 /* CircleDrawingImageOverlay.swift in Sources */,
+				4924C3AD27418BEF00A05E81 /* ClockhandsAnalysisView.swift in Sources */,
+				49D28A252740729F003D668E /* Array+Extension.swift in Sources */,
 				49F6685227381C9000177A65 /* DebugResultView.swift in Sources */,
+				4924C3AB2741898E00A05E81 /* NeighborDigitsAnalysisView.swift in Sources */,
 				49F668442737D5A800177A65 /* ClassifiedDigit.swift in Sources */,
 				4977FC3A2707310000214747 /* GeometryGetter.swift in Sources */,
 				4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */,
+				4924C3A7274161EA00A05E81 /* NumbersAtRightPlaceView.swift in Sources */,
 				49F668482737D80000177A65 /* ClockAnalyzer.swift in Sources */,
 				49F6684A2737D9EA00177A65 /* MNISTImagePredictor.swift in Sources */,
+				4924C3AF27418FBA00A05E81 /* ConfigView.swift in Sources */,
 				49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */,
+				4924C3A92741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift in Sources */,
 				49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */,
 				4977FC3C2707513E00214747 /* UIImage+Extension.swift in Sources */,
 				4977FC35270707FA00214747 /* PKToolPicker+Extension.swift in Sources */,
@@ -326,6 +373,7 @@
 				49F668462737D60100177A65 /* Prediction.swift in Sources */,
 				49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */,
 				49F6685627388BC100177A65 /* Sequence+Extension.swift in Sources */,
+				4924C3A527415E8900A05E81 /* NumbersFoundAnalysisView.swift in Sources */,
 				49F668502737F3A800177A65 /* NavigationView+Extension.swift in Sources */,
 				49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */,
 				4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */,
