@@ -32,6 +32,7 @@
 		4996A63F272E971300B64DF4 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A63E272E971300B64DF4 /* Accelerate.framework */; };
 		4996A643272E976200B64DF4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A641272E974100B64DF4 /* opencv2.framework */; };
 		4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */; };
+		49C0350D2762077F0050B29C /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0350C2762077F0050B29C /* ShareSheet.swift */; };
 		49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1A273FDA6A003D668E /* CircleScoreView.swift */; };
 		49D28A1D273FDCDF003D668E /* CriteriaListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */; };
 		49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1E273FDE5D003D668E /* ResultView.swift */; };
@@ -85,6 +86,7 @@
 		4996A647272E97F900B64DF4 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		4996A64A272E987B00B64DF4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		49C0350C2762077F0050B29C /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		49D28A1A273FDA6A003D668E /* CircleScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleScoreView.swift; sourceTree = "<group>"; };
 		49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteriaListItemView.swift; sourceTree = "<group>"; };
 		49D28A1E273FDE5D003D668E /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				4977FC392707310000214747 /* GeometryGetter.swift */,
 				49F668472737D80000177A65 /* ClockAnalyzer.swift */,
 				49F668492737D9EA00177A65 /* MNISTImagePredictor.swift */,
+				49C0350C2762077F0050B29C /* ShareSheet.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */,
 				49F668542738267E00177A65 /* Config.swift in Sources */,
 				49F6684C2737DF7200177A65 /* DrawAndClassifyClockView.swift in Sources */,
+				49C0350D2762077F0050B29C /* ShareSheet.swift in Sources */,
 				4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */,
 				4977FC32270707AA00214747 /* DrawingView.swift in Sources */,
 				49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */,

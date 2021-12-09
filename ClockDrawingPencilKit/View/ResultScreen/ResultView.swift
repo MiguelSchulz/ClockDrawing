@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PDFKit
 
 enum ShowModal {
     case first
@@ -13,6 +14,7 @@ enum ShowModal {
     case third
     case fourth
     case fifth
+    case sixth
 }
 
 struct ResultView: View {
@@ -22,6 +24,37 @@ struct ResultView: View {
     
     @State var showModal = false
     @State var modal = ShowModal.first
+    
+    @State public var sharedItems : [Any] = []
+    
+    func exportPDF() {
+        let shareDocument = PDFDocument()
+        if let imagePage = PDFPage(image: screenshotBody.snapshot()) {
+            shareDocument.insert(imagePage, at: 0)
+        }
+            
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .medium
+        
+        
+        
+        do
+        {
+            let filename = "\(dateFormatter.string(from: Date())).pdf"
+            let tmpDirectory = FileManager.default.temporaryDirectory
+            let fileURL = tmpDirectory.appendingPathComponent(filename)
+            try shareDocument.dataRepresentation()?.write(to: fileURL)
+            sharedItems = [fileURL]
+        }
+        catch
+        {
+            print ("Cannot write PDF: \(error)")
+        }
+        
+        self.modal = .sixth
+        showModal = true
+    }
     
     var body: some View {
         ZStack {
@@ -44,11 +77,18 @@ struct ResultView: View {
                         }.whiteRoundedBackground()
                     }
                 }.padding()
-                Button {
-                    self.shouldPopToRootView = false
-                } label: {
-                    Text("Restart Test").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.green.cornerRadius(20))
-                }.buttonStyle(PlainButtonStyle()).padding()
+                HStack {
+                    Button {
+                        self.shouldPopToRootView = false
+                    } label: {
+                        Text("Restart Test").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.green.cornerRadius(20))
+                    }.buttonStyle(PlainButtonStyle()).padding()
+                    Button {
+                        self.exportPDF()
+                    } label: {
+                        Text("Export PDF").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.blue.cornerRadius(20))
+                    }.buttonStyle(PlainButtonStyle()).padding()
+                }
             }
         }.navigationBarHidden(true).sheet(isPresented: self.$showModal) {
             NavigationView {
@@ -59,6 +99,7 @@ struct ResultView: View {
                     case .third: HorizontalAndVerticalSymmetrieDigitView(clockAnalyzer: self.clockAnalyzer)
                     case .fourth: NeighborDigitsAnalysisView(clockAnalyzer: self.clockAnalyzer)
                     case .fifth: ClockhandsAnalysisView(clockAnalyzer: self.clockAnalyzer)
+                    case .sixth: ShareSheet(activityItems: sharedItems)
                     default:
                         Text("")
                     }
@@ -79,6 +120,30 @@ struct ResultView: View {
         .onChange(of: showModal, perform: {_ in})
         .onChange(of: modal, perform: {_ in})
         
+    }
+    
+    var screenshotBody: some View {
+        ZStack {
+            Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)
+                VStack(alignment: .leading, spacing: 5) {
+                    CircleDrawingImageOverlay(image: self.clockAnalyzer.analyzedResult.completeImage).padding(.horizontal, 50)
+                    
+                    Text("Result:").font(.title).fontWeight(.semibold)
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        HStack {
+                            CircleScoreView(score: self.clockAnalyzer.analyzedResult.score).frame(width: 250, height: 250)
+                            Spacer()
+                            detailedAnalysis
+                        }.whiteRoundedBackground()
+                    } else {
+                        VStack {
+                            CircleScoreView(score: self.clockAnalyzer.analyzedResult.score).frame(width: 250, height: 250)
+                            detailedAnalysis
+                        }.whiteRoundedBackground()
+                    }
+                    Spacer().frame(height: 20)
+                }.padding()
+        }.frame(width: 210*5, height: 297*5)
     }
     
     var detailedAnalysis: some View {
