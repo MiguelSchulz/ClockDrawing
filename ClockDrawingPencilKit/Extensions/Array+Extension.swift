@@ -23,4 +23,41 @@ extension Array where Element: FloatingPoint {
         return sqrt(v / (Element(self.count) - 1))
     }
 
+    
+    
+}
+
+extension Array where Element: Comparable {
+    var rangesOfPeaksAndValleys: (peaks: [ClosedRange<Int>], valleys: [ClosedRange<Int>]) {
+        guard !isEmpty else { return ([], []) }
+
+        var peaks = [ClosedRange<Int>]()
+        var valleys = [ClosedRange<Int>]()
+
+        var previousValue = self[0]
+        var lastPeakStartingIndex: Int?
+        var lastValleyStartingIndex: Int?
+
+        for (index, value) in enumerated() {
+            if value > previousValue {
+                if let lastValleyStartingIndexUnwrapped = lastValleyStartingIndex {
+                    valleys.append(lastValleyStartingIndexUnwrapped...index - 1)
+                    lastValleyStartingIndex = nil
+                }
+
+                lastPeakStartingIndex = index
+            } else if value < previousValue {
+                if let lastPeakStartingIndexUnwrapped = lastPeakStartingIndex {
+                    peaks.append(lastPeakStartingIndexUnwrapped...index - 1)
+                    lastPeakStartingIndex = nil
+                }
+
+                lastValleyStartingIndex = index
+            }
+
+            previousValue = value
+        }
+
+        return (peaks, valleys)
+    }
 }

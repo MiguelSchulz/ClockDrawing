@@ -8,17 +8,20 @@
 import Foundation
 import opencv2
 
-struct AnalyzedClockResult {
+struct AnalyzedClockResult: Equatable {
+    
+    var minute = 0
+    var hour = 0
     
     var score = 0
     
     var clockSize = Size2i(width: 0, height: 0)
     
     var completeImage = UIImage()
+    var houghImage = UIImage()
     
     var classifiedDigits = [ClassifiedDigit]()
     
-    var houghLines = Mat()
     
     var hourHandAngle: Float = 0
     var minuteHandAngle: Float = 0
@@ -29,10 +32,20 @@ struct AnalyzedClockResult {
     
     
     var clockhandsRight: Bool {
-        return Config.hourHandAngleRange.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(abs(Int32(self.minuteHandAngle)))
+        if Config.useMLforClockhands {
+            return hour == 11 && minute == 10
+        } else {
+            return Config.hourHandAngleRange.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(abs(Int32(self.minuteHandAngle)))
+        }
+        
     }
     var clockhandsAlmostRight: Bool {
-        return Config.hourHandAngleRange2.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(abs(Int32(self.minuteHandAngle)))
+        if Config.useMLforClockhands {
+            return (10...12).contains(hour) && (5...15).contains(minute)
+        } else {
+            return Config.hourHandAngleRange2.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(abs(Int32(self.minuteHandAngle)))
+        }
+        
     }
     
     

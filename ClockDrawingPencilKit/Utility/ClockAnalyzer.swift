@@ -7,6 +7,7 @@
 
 import Foundation
 import opencv2
+import UIKit
 
 class ClockAnalyzer: ObservableObject {
     
@@ -16,24 +17,54 @@ class ClockAnalyzer: ObservableObject {
     private let MNISTpredictor = MNISTImagePredictor()
     private var dispatchGroup = DispatchGroup()
     
-    fileprivate func prepareImage(rawClockImage: UIImage, fatClockImage: UIImage) -> (Mat, Mat) {
-        let drawingOnlyMat = Mat(uiImage: rawClockImage, alphaExist: true)
-        let drawingOnlyMatFat = Mat(uiImage: fatClockImage, alphaExist: true)
+    let watchhandPredictor = WatchImagePredictor()
+    
+    func readClockhandsUsingML(handsClassificationImage: Mat) {
+        
+        let imageWidth = handsClassificationImage.width()
+        let imageHeight = handsClassificationImage.height()
+        
+        // TRY TO REMOVE SOME OF THE DIGITS
+        Imgproc.circle(img: handsClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/2, color: Scalar(255), thickness: Int32(Double(imageHeight / 2) * 0.5))
+        
+        // DRAW REMAINING HANDS ON BACKGROUND FOR ORIENTATION
+        let backgroundImage = Mat(uiImage: UIImage(named: "clock_background")!, alphaExist: false)
+        let clockhandMask = Mat()
+        Core.inRange(src: handsClassificationImage, lowerb: Scalar(0), upperb: Scalar(1), dst: clockhandMask)
+        
+        Imgproc.resize(src: backgroundImage, dst: backgroundImage, dsize: handsClassificationImage.size())
+        backgroundImage.setTo(scalar: Scalar(0), mask: clockhandMask)
+        
+        
+        Imgproc.resize(src: backgroundImage, dst: backgroundImage, dsize: Size2i(width: 300, height: 300))
+        
+        do {
+            try watchhandPredictor.makePredictions(image: backgroundImage.toUIImage()) { hour, minute in
+                self.analyzedResult.hour = hour
+                self.analyzedResult.minute = minute
+            }
+        } catch {
+            print("Vision was unable to make a prediction...\n\n\(error.localizedDescription)")
+            dispatchGroup.leave()
+        }
+    }
+    
+    fileprivate func prepareImage(rawImage: UIImage) -> Mat {
+        let drawingOnlyMat = Mat(uiImage: rawImage, alphaExist: true)
         
         // GET TRANSPARENT PIXELS AND SET THEM TO SOLID WHITE
         let transparentMask = Mat()
-        let transparentMask2 = Mat()
         Core.inRange(src: drawingOnlyMat, lowerb: Scalar(0,0,0,0), upperb: Scalar(255,255,255,1), dst: transparentMask)
         drawingOnlyMat.setTo(scalar: Scalar(255,255,255,255), mask: transparentMask)
         
-        Core.inRange(src: drawingOnlyMatFat, lowerb: Scalar(0,0,0,0), upperb: Scalar(255,255,255,1), dst: transparentMask2)
-        drawingOnlyMatFat.setTo(scalar: Scalar(255,255,255,255), mask: transparentMask2)
         
-        return (drawingOnlyMat, drawingOnlyMatFat)
+        return drawingOnlyMat
     }
     
     func startAnalysis(clockImage: UIImage, fatClockImage: UIImage, onCompletion: @escaping () -> Void) {
-        let (drawingOnlyMat, drawingOnlyMatFat) = prepareImage(rawClockImage: clockImage, fatClockImage: fatClockImage)
+        let digitClassificationImage = prepareImage(rawImage: clockImage)
+        let handsClassificationImage = prepareImage(rawImage: fatClockImage)
+        let handsClassificationImage_notInverted = handsClassificationImage.clone()
         
         self.analyzedResult.completeImage = clockImage
         
@@ -43,33 +74,36 @@ class ClockAnalyzer: ObservableObject {
         
         
         // APPLY THRESHOLDING AND CONVERT TO GRAY IMAGE
-        Imgproc.cvtColor(src: drawingOnlyMat, dst: drawingOnlyMat, code: ColorConversionCodes.COLOR_RGBA2GRAY) // COLOR_BGR2GRAY
-        Imgproc.threshold(src: drawingOnlyMat, dst: drawingOnlyMat, thresh: 0, maxval: 255, type: ThresholdTypes.THRESH_BINARY_INV)
-        Imgproc.cvtColor(src: drawingOnlyMatFat, dst: drawingOnlyMatFat, code: ColorConversionCodes.COLOR_RGBA2GRAY) // COLOR_BGR2GRAY
-        Imgproc.threshold(src: drawingOnlyMatFat, dst: drawingOnlyMatFat, thresh: 0, maxval: 255, type: ThresholdTypes.THRESH_BINARY_INV)
-        self.analyzedResult.clockSize = drawingOnlyMat.size()
+        Imgproc.cvtColor(src: digitClassificationImage, dst: digitClassificationImage, code: ColorConversionCodes.COLOR_RGBA2GRAY) // COLOR_BGR2GRAY
+        Imgproc.threshold(src: digitClassificationImage, dst: digitClassificationImage, thresh: 0, maxval: 255, type: ThresholdTypes.THRESH_BINARY_INV)
+        Imgproc.cvtColor(src: handsClassificationImage, dst: handsClassificationImage, code: ColorConversionCodes.COLOR_RGBA2GRAY) // COLOR_BGR2GRAY
+        Imgproc.threshold(src: handsClassificationImage, dst: handsClassificationImage, thresh: 0, maxval: 255, type: ThresholdTypes.THRESH_BINARY_INV)
+        Imgproc.cvtColor(src: handsClassificationImage_notInverted, dst: handsClassificationImage_notInverted, code: ColorConversionCodes.COLOR_RGBA2GRAY) // COLOR_BGR2GRAY
+        Imgproc.threshold(src: handsClassificationImage_notInverted, dst: handsClassificationImage_notInverted, thresh: 0, maxval: 255, type: ThresholdTypes.THRESH_BINARY)
+        self.analyzedResult.clockSize = digitClassificationImage.size()
         
         // PREPARE DIFFERENT IMAGES FOR CLASSIFICATION TASKS
-        let digitClassificationImage = drawingOnlyMat.clone()
-        let handsClassificationImage = drawingOnlyMatFat.clone()
-        let imageWidth = drawingOnlyMat.width()
-        let imageHeight = drawingOnlyMat.height()
+        let imageWidth = digitClassificationImage.width()
+        let imageHeight = digitClassificationImage.height()
         
-    
-        //Imgproc.circle(img: digitClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: Int32(Double((imageHeight/2))*0.7), color: Scalar(0,0,0), thickness: LineTypes.FILLED.rawValue)
-        Imgproc.circle(img: handsClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/2, color: Scalar(0,0,0), thickness: Int32(Double(imageHeight / 2) * 0.8))
-       
-        //UIImageWriteToSavedPhotosAlbum(digitClassificationImage.toUIImage(), nil, nil, nil)
-        //UIImageWriteToSavedPhotosAlbum(handsClassificationImage.toUIImage(), nil, nil, nil)
         
         self.classifyDigits(clockImage: digitClassificationImage)
-        self.handDetection(clockImage: handsClassificationImage)
+        
+        
         
         dispatchGroup.notify(queue: .main) {
             for digit in self.analyzedResult.classifiedDigits {
                 //let _ = self.determineIfDigitPositionIsCorrect(digit: digit)
                 self.checkForDoubleDigit(digit, wholeMat: digitClassificationImage)
             }
+            
+            if Config.useMLforClockhands {
+                self.readClockhandsUsingML(handsClassificationImage: handsClassificationImage_notInverted)
+            } else {
+                //Imgproc.circle(img: handsClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/2, color: Scalar(0,0,0), thickness: Int32(Double(imageHeight / 2) * 0.8))
+                self.handDetection(clockImage: handsClassificationImage)
+            }
+            
             for count in self.analyzedResult.classifiedDigits.indices {
                 //let _ = self.determineIfDigitPositionIsCorrect(digit: digit)
                 self.analyzedResult.classifiedDigits[count].isInRightSpot = self.determineIfDigitPositionIsCorrect(digit: self.analyzedResult.classifiedDigits[count])
@@ -84,40 +118,103 @@ class ClockAnalyzer: ObservableObject {
         let drawingMat = clockImage.clone()
         let lineDrawMat = Mat.zeros(drawingMat.size(), type: CvType.CV_8UC3)
         
+        let colorLineDrawMat = Mat.zeros(drawingMat.size(), type: CvType.CV_8UC3)
+        colorLineDrawMat.setTo(scalar: Scalar(255,255,255))
         
-        // CANNY EDGE DETECTION
-        Imgproc.Canny(image: drawingMat, edges: drawingMat, threshold1: 50, threshold2: 200, apertureSize: 3)
         
+        //Imgproc.cvtColor(src: colorLineDrawMat, dst: colorLineDrawMat, code: ColorConversionCodes.COLOR_GRAY2RGBA)
+        
+        // REMOVE FOUND DIGITS FROM IMAGE
+        for digit in self.analyzedResult.classifiedDigits {
+            Imgproc.rectangle(img: drawingMat, rec: digit.originalBoundingBox.outsetBy(d: Int32(Config.changeLineWidthOfDrawingBy+2)), color: Scalar(0), thickness: -1)
+        }
+        // WARP POLAR TO CREATE LINEAR IMAGE OF CIRCLE
+        Imgproc.warpPolar(src: drawingMat, dst: lineDrawMat, dsize: drawingMat.size(), center: Point2f(x: Float(drawingMat.width()) / 2, y: Float(drawingMat.height()) / 2), maxRadius: Double(drawingMat.width()) / 3, flags: WarpPolarMode.WARP_POLAR_LINEAR.rawValue)
+        
+        
+        // CUT LEFT TO FIX CENTER ERROR
+        Imgproc.rectangle(img: lineDrawMat, rec: Rect2i(x: 0, y: 0, width: lineDrawMat.width() / 4, height: lineDrawMat.height()), color: Scalar(0), thickness: -1)
+        //Imgproc.rectangle(img: lineDrawMat, rec: Rect2i(x: 0, y: 0, width: lineDrawMat.width(), height: lineDrawMat.height()/2), color: Scalar(0), thickness: -1)
+        
+        // EDGE DETECTION
+        Imgproc.Canny(image: lineDrawMat, edges: lineDrawMat, threshold1: 50, threshold2: 200, apertureSize: 3)
+                
         // DETECT LINES WITH HOUGH P
         let lines = Mat()
+        Imgproc.HoughLinesP(image: lineDrawMat, lines: lines, rho: 1, theta: .pi / 180, threshold: Int32(Config.houghTransformThreshold), minLineLength: Double(Config.minLineLengthForHoughTransform))
         
-        Imgproc.HoughLinesP(image: drawingMat, lines: lines, rho: 1, theta: .pi / 180, threshold: Int32(Config.houghTransformThreshold), minLineLength: Double(Config.minLineLengthForHoughTransform))
-        analyzedResult.houghLines = lines
-        var points = [Point2i]()
-        // SAVE ALL POINTS IN ARRAY
+        var relevantYs = [Int32]()
+        // SAVE ALL RELEVANT Ys IN ARRAY
         for i in 0..<lines.rows() {
             let data = lines.get(row: i, col: 0)
             
             let startPoint = Point2i(x: Int32(data[0]), y: Int32(data[1]))
             let endPoint = Point2i(x: Int32(data[2]), y: Int32(data[3]))
             
-            points.append(startPoint)
-            points.append(endPoint)
-            
-            // DRAW LINES DEBUG VISUALIZATION
-            Imgproc.line(img: lineDrawMat, pt1: startPoint, pt2: endPoint, color: Scalar(125, 0, 0), thickness: 6)
+            // FILTER OUT ONLY HORIZONTAL LINES
+            if ((-3.0)...(3.0)).contains(Double(startPoint.angleTo(endPoint))) {
+                relevantYs.append(startPoint.y)
+                relevantYs.append(endPoint.y)
+                // DRAW LINES DEBUG VISUALIZATION
+                Imgproc.line(img: colorLineDrawMat, pt1: startPoint, pt2: endPoint, color: Scalar(255, 0, 0), thickness: 6)
+            }
+                  
+        }
+        
+        let kmm = KMeans<String>(labels: ["1", "2"])
+        let vectors = relevantYs.map({ Vector([Double($0)])})
+        
+        if !vectors.isEmpty {
+            kmm.trainCenters(vectors, convergeDistance: 0.01)
         }
         
         
-        // GET 3 CHARACTERISTIC POINTS
-        let mostRightPoint = points.max(by: { $0.x < $1.x}) ?? Point2i()
-        let mostDownPoint = points.min(by: { $0.y > $1.y}) ?? Point2i()
-        let mostLeftPoint = points.min(by: { $0.x < $1.x}) ?? Point2i()
+        var angle1: Float = 0
+        var angle2: Float = 0
         
-        self.analyzedResult.hourHandAngle = mostDownPoint.angleTo(mostLeftPoint)
-        self.analyzedResult.minuteHandAngle = mostDownPoint.angleTo(mostRightPoint)
+        if let foundValue = kmm.centroids.first?.data.first {
+            angle1 = Float((Double(lineDrawMat.width())-foundValue) / Double(lineDrawMat.width()) * 360)
+        }
+        if let foundValue = kmm.centroids.last?.data.first {
+            angle2 = Float((Double(lineDrawMat.width())-foundValue) / Double(lineDrawMat.width()) * 360)
+        }
         
         
+        for i in 0..<lines.rows() {
+            let data = lines.get(row: i, col: 0)
+            
+            let startPoint = Point2i(x: Int32(data[0]), y: Int32(data[1]))
+            let endPoint = Point2i(x: Int32(data[2]), y: Int32(data[3]))
+            
+            if ((-3.0)...(3.0)).contains(Double(startPoint.angleTo(endPoint))) {
+                var color = Scalar(0, 200, 0)
+                if kmm.fit(Vector([Double(startPoint.y)])) == "1" {
+                    color = Scalar(255, 200, 0)
+                }
+                // DRAW LINES DEBUG VISUALIZATION
+                Imgproc.line(img: colorLineDrawMat, pt1: startPoint, pt2: endPoint, color: color, thickness: 10)
+            }
+                  
+        }
+        
+        // DRAW ORIENTATION LINES
+        for i in 0..<13 {
+            var fraction = Double(i)/12
+            var fracHeight = Double(lineDrawMat.height()) * fraction
+            Imgproc.line(img: colorLineDrawMat, pt1: Point2i(x: 0, y: Int32(fracHeight)), pt2: Point2i(x: drawingMat.width()-60, y: Int32(fracHeight)), color: Scalar(0,0,0), thickness: 2)
+            var iText = i+3
+            if iText > 12 {
+                iText -= 12
+            }
+            Imgproc.putText(img: colorLineDrawMat, text: "\(iText)", org: Point2i(x: drawingMat.width()-50, y: Int32(fracHeight)), fontFace: HersheyFonts.FONT_HERSHEY_DUPLEX, fontScale: 1, color: Scalar(0,0,0))
+        }
+        
+        self.analyzedResult.hourHandAngle = max(angle1, angle2)
+        self.analyzedResult.minuteHandAngle = min(angle1, angle2)
+        
+        // CREATE IMAGE
+        
+        self.analyzedResult.houghImage = colorLineDrawMat.toUIImage()
         
     }
     
@@ -188,7 +285,7 @@ class ClockAnalyzer: ObservableObject {
         }
         
         // CORRECT POSSIBLE CONFUSIONS
-        if classifiedDigit.topPrediction.classification == "7" && (centerX...analyzedResult.clockSize.width-toleranceField).contains(classifiedDigit.centerX) && (0...toleranceField*2).contains(classifiedDigit.centerY) {
+        if (classifiedDigit.topPrediction.classification == "7" || classifiedDigit.topPrediction.classification == "4") && (centerX...analyzedResult.clockSize.width-toleranceField).contains(classifiedDigit.centerX) && (0...toleranceField*2).contains(classifiedDigit.centerY) {
             appendDigit = ClassifiedDigit(digitImage: classifiedDigit.digitImage, predictions: [Prediction(classification: "1", confidencePercentage: 1)], centerX: classifiedDigit.centerX, centerY: classifiedDigit.centerY, originalBoundingBox: classifiedDigit.originalBoundingBox, isInRightSpot: false)
             self.analyzedResult.classifiedDigits.removeAll(where: {$0 == classifiedDigit})
             print("Fixed a seven")
@@ -196,7 +293,7 @@ class ClockAnalyzer: ObservableObject {
         if classifiedDigit.topPrediction.classification == "9" && (centerX+toleranceField...analyzedResult.clockSize.width).contains(classifiedDigit.centerX) && (centerY...analyzedResult.clockSize.height-toleranceField).contains(classifiedDigit.centerY) {
             appendDigit = ClassifiedDigit(digitImage: classifiedDigit.digitImage, predictions: [Prediction(classification: "4", confidencePercentage: 1)], centerX: classifiedDigit.centerX, centerY: classifiedDigit.centerY, originalBoundingBox: classifiedDigit.originalBoundingBox, isInRightSpot: false)
             self.analyzedResult.classifiedDigits.removeAll(where: {$0 == classifiedDigit})
-            print("Fixed a seven")
+            print("Fixed a nine")
         }
         self.analyzedResult.classifiedDigits.append(appendDigit)
         dispatchGroup.leave()
@@ -227,7 +324,7 @@ class ClockAnalyzer: ObservableObject {
                     
                     let resizedDigitImage = Imgproc.resizeAndPad(img: newDigitImage, size: Size2i(width: 28, height: 28), padColor: 0)
                     
-                    let newDigitString = (digit1.topPrediction.classification.replacingOccurrences(of: "4", with: "1") + digit2.topPrediction.classification).replacingOccurrences(of: "7", with: "1") // ERROR CORRET SINCE ONLY NUMBERS UP TO 12 ARE NEEDED
+                    let newDigitString = (digit1.topPrediction.classification.replacingOccurrences(of: "4", with: "1").replacingOccurrences(of: "7", with: "1").replacingOccurrences(of: "2", with: "1") + digit2.topPrediction.classification).replacingOccurrences(of: "7", with: "1").replacingOccurrences(of: "4", with: "1") // ERROR CORRET SINCE ONLY NUMBERS UP TO 12 ARE NEEDED
                     
                     analyzedResult.classifiedDigits.append(ClassifiedDigit(digitImage: resizedDigitImage.toUIImage(), predictions: [Prediction(classification: newDigitString, confidencePercentage: 1.0)], centerX: newX + newWidth / 2, centerY: newY + newHeight / 2, originalBoundingBox: newRect, isInRightSpot: false))
                     analyzedResult.classifiedDigits.removeAll(where: {$0 == digit1 || $0 == digit2})
@@ -263,6 +360,15 @@ class ClockAnalyzer: ObservableObject {
                 checkNeighborsAndUpdateClassifications(digit1: digit, digit2: neighborDigit)
             }
             let allNeighborsToLeft = analyzedResult.classifiedDigits.filter({["7", "1"].contains($0.topPrediction.classification)})
+            for neighborDigit in allNeighborsToLeft {
+                checkNeighborsAndUpdateClassifications(digit1: neighborDigit, digit2: digit)
+            }
+        case "4":
+            let allNeighborsToRight = analyzedResult.classifiedDigits.filter({["7", "2", "1", "0", "4"].contains($0.topPrediction.classification)})
+            for neighborDigit in allNeighborsToRight {
+                checkNeighborsAndUpdateClassifications(digit1: digit, digit2: neighborDigit)
+            }
+            let allNeighborsToLeft = analyzedResult.classifiedDigits.filter({["7", "1", "4"].contains($0.topPrediction.classification)})
             for neighborDigit in allNeighborsToLeft {
                 checkNeighborsAndUpdateClassifications(digit1: neighborDigit, digit2: digit)
             }
@@ -338,70 +444,39 @@ class ClockAnalyzer: ObservableObject {
         let numbersFoundRightSpot = data.numbersFoundInRightSpot.count
         
         
-        var decreaseScoreByAndCriteria: Float {
-            var decreaseScoreBy: Float = 0.0
-            if data.verticalConnectionLinePerfect && data.horizontalConnectionLinePerfect {
-                decreaseScoreBy += 1
-            } else if data.verticalConnectionLineOkay && data.horizontalConnectionLineOkay {
-                decreaseScoreBy += 0.5
-            }
-            
-            // DIGIT DISTANCE SYMMETRIE
-            if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient {
-                decreaseScoreBy += 1
-            } else if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient2 {
-                decreaseScoreBy += 0.5
-            }
-            
-            // TIME TO DRAW
-            if data.secondsToComplete < Config.maxSecondsForPerfectRating {
-                decreaseScoreBy += 1
-            } else if data.secondsToComplete < Config.maxSecondsForSemiRating {
-                decreaseScoreBy += 0.5
-            }
-            
-            // TIMES RESTARTED
-            if data.timesRestarted <= Config.maxTimesRestartedForPerfectRating {
-                decreaseScoreBy += 1
-            } else if data.timesRestarted <= Config.maxTimesRestartedForOkayRating {
-                decreaseScoreBy += 0.5
-            }
-            return decreaseScoreBy
-        }
-        
         // GATHER POINTS
         pointsGathered += numbersFound // MAX 12
         pointsGathered += numbersFoundRightSpot // MAX 24
         
-        if data.verticalConnectionLinePerfect { // MAX 29
-            pointsGathered += 5
-        } else if data.verticalConnectionLineOkay {
-            pointsGathered += 3
-        }
-        
-        if data.horizontalConnectionLinePerfect { // MAX 34
-            pointsGathered += 5
-        } else if data.horizontalConnectionLineOkay {
-            pointsGathered += 3
-        }
-        
-        if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient { // MAX 42
-            pointsGathered += 8
-        } else if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient2 {
+        if data.verticalConnectionLinePerfect { // MAX 28
             pointsGathered += 4
+        } else if data.verticalConnectionLineOkay {
+            pointsGathered += 2
         }
         
-        if data.secondsToComplete < Config.maxSecondsForPerfectRating { // MAX 47
+        if data.horizontalConnectionLinePerfect { // MAX 32
+            pointsGathered += 4
+        } else if data.horizontalConnectionLineOkay {
+            pointsGathered += 2
+        }
+        
+        if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient { // MAX 37
             pointsGathered += 5
-        } else if data.secondsToComplete < Config.maxSecondsForSemiRating {
+        } else if data.digitDistanceVariationCoefficient <= Config.digitDistanceVariationCoefficient2 {
             pointsGathered += 3
+        }
+        
+        if data.secondsToComplete < Config.maxSecondsForPerfectRating { // MAX 41
+            pointsGathered += 4
+        } else if data.secondsToComplete < Config.maxSecondsForSemiRating {
+            pointsGathered += 2
         }
         
         // TIMES RESTARTED
-        if data.timesRestarted <= Config.maxTimesRestartedForPerfectRating { // MAX 52
-            pointsGathered += 5
+        if data.timesRestarted <= Config.maxTimesRestartedForPerfectRating { // MAX 45
+            pointsGathered += 4
         } else if data.timesRestarted <= Config.maxTimesRestartedForOkayRating {
-            pointsGathered += 3
+            pointsGathered += 2
         }
         
         var bestRatingStillPossible = 1
@@ -417,15 +492,15 @@ class ClockAnalyzer: ObservableObject {
         
         
         switch pointsGathered {
-            case let x where x >= 48:
+            case let x where x >= 36:
             score = 1
-            case let x where x >= 42:
+            case let x where x >= 28:
             score = 2
-            case let x where x >= 34:
+            case let x where x >= 24:
             score = 3
-            case let x where x >= 26:
+            case let x where x >= 20:
             score = 4
-            case let x where x >= 18:
+            case let x where x >= 16:
             score = 5
             default:
             score = 6
@@ -436,56 +511,6 @@ class ClockAnalyzer: ObservableObject {
         }
         
         
-        /*
-        // HARD FORK FOR CLOCKHANDS
-        if data.clockhandsRight {
-            if numbersFound <= Config.minNumbersFoundForPerfectRating && numbersFoundRightSpot <= Config.minNumbersInRightPositionForPerfectRating {
-                bestRatingStillPossible = 2
-            } else if (decreaseScoreByAndCriteria >= 3.5) { // ONLY WAY TO GET A PERFECT SCORE
-                score = 1
-                return score
-            }
-        } else if data.clockhandsAlmostRight {
-            bestRatingStillPossible = 2
-            if (numbersFound <= Config.minNumbersFoundForPerfectRating && numbersFoundRightSpot <= Config.minNumbersInRightPositionForOkayRating) || (numbersFound <= Config.minNumbersFoundForOkayRating && numbersFoundRightSpot <= Config.minNumbersInRightPositionForPerfectRating) {
-                bestRatingStillPossible = 3
-            }
-        } else {
-            bestRatingStillPossible = 3
-            if numbersFound <= 3 { // NO CLOCK AT ALL
-                bestRatingStillPossible = 6
-            } else if numbersFound <= 4 && numbersFoundRightSpot <= 2 { // COULD STILL HAVE AT LEAST SOME ELEMENTS OF A CLOCK
-                bestRatingStillPossible = 5
-            } else if numbersFound <= Config.minNumbersFoundForOkayRating && numbersFoundRightSpot <= Config.minNumbersInRightPositionForOkayRating {
-                bestRatingStillPossible = 4
-            }
-        }
-        score = score - Int(decreaseScoreByAndCriteria.rounded(.up))
-        if score < bestRatingStillPossible {
-            score = bestRatingStillPossible
-        }
-        
-        if data.clockhandsRight {
-            if numbersFound >= Config.minNumbersFoundForPerfectRating && numbersFoundRightSpot >= Config.minNumbersInRightPositionForPerfectRating {
-                if onlyOnePerfectCriteriaWrong {
-                    score = 1
-                } else if onlyTwoPerfectCriteriaWrong && noOkayCriteriaWrong {
-                    score = 2
-                } else {
-                    
-                    // CONTINUE WITH WORSE
-                }
-            } else {
-                
-                // CONTINUE WITH WORSE
-            }
-        } else if data.clockhandsAlmostRight {
-            // MARK: 2 or worse
-            score = 2
-        } else {
-            // MARK: 3 or worse
-            score = 3
-        }*/
         return score
     }
     
@@ -581,26 +606,8 @@ extension ClockAnalyzer {
     }
     
     func getRecognizedClockhandsImage() -> UIImage {
-        let completeImageMat = Mat(uiImage: self.analyzedResult.completeImage, alphaExist: true)
-        var color = Scalar(255,0,0,255)
         
-        if analyzedResult.clockhandsRight {
-            color = Scalar(0,255,0,255)
-        } else if analyzedResult.clockhandsAlmostRight {
-            color = Scalar(255,255,0,255)
-        }
-        
-        for i in 0..<analyzedResult.houghLines.rows() {
-            let data = analyzedResult.houghLines.get(row: i, col: 0)
-            
-            let startPoint = Point2i(x: Int32(data[0]), y: Int32(data[1]))
-            let endPoint = Point2i(x: Int32(data[2]), y: Int32(data[3]))
-            
-            // DRAW LINES DEBUG VISUALIZATION
-            Imgproc.line(img: completeImageMat, pt1: startPoint, pt2: endPoint, color: color, thickness: 10)
-        }
-        
-        return completeImageMat.toUIImage()
+        return self.analyzedResult.houghImage
     }
     
 }

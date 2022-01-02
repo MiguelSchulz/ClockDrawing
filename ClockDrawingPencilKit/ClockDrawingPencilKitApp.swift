@@ -16,7 +16,10 @@ struct ClockDrawingPencilKitApp: App {
     }
     
     func setupUserDefaults() {
-        if !UserDefaults.standard.bool(forKey: "startedVersion1.0") {
+        if !UserDefaults.standard.bool(forKey: "startedVersion1.1") {
+            
+            UserDefaults.standard.set(true, forKey: "useMLforClockhands")
+            
             UserDefaults.standard.set(18, forKey: "clockhandTolerance")
             UserDefaults.standard.set(25, forKey: "clockhandTolerance2")
             
@@ -44,7 +47,7 @@ struct ClockDrawingPencilKitApp: App {
             UserDefaults.standard.set(4, forKey: "minNumbersInRightPositionForOkayRating")
             print("UserDefaults set")
             
-            UserDefaults.standard.set(true, forKey: "startedVersion1.0")
+            UserDefaults.standard.set(true, forKey: "startedVersion1.1")
         }
     }
 }

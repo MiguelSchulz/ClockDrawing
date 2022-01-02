@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4909F5BE2779CB68008D6161 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5BD2779CB68008D6161 /* Vector.swift */; };
+		4909F5C02779CB6F008D6161 /* KMeans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5BF2779CB6F008D6161 /* KMeans.swift */; };
+		4909F5C2277A2B1C008D6161 /* Rect2i+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5C1277A2B1C008D6161 /* Rect2i+Extension.swift */; };
+		4909F5C5277C691E008D6161 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 4909F5C4277C691E008D6161 /* Realm */; };
+		4909F5C7277C691E008D6161 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4909F5C6277C691E008D6161 /* RealmSwift */; };
+		4909F5C9277C69BC008D6161 /* SavedClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5C8277C69BC008D6161 /* SavedClock.swift */; };
+		4909F5CC277C6A84008D6161 /* SavedClockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5CB277C6A84008D6161 /* SavedClockListView.swift */; };
+		4909F5CE277C6BCF008D6161 /* SavedClockCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5CD277C6BCF008D6161 /* SavedClockCellView.swift */; };
+		4909F5D0277C71F7008D6161 /* DrawSavedClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5CF277C71F7008D6161 /* DrawSavedClockView.swift */; };
+		4909F5D2277C75A3008D6161 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5D1277C75A3008D6161 /* ImagePicker.swift */; };
+		4909F5D4277D87D1008D6161 /* AnalyzeAllSavedClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4909F5D3277D87D1008D6161 /* AnalyzeAllSavedClockView.swift */; };
 		4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910271A27098AD100BD929F /* PKDrawing+Extension.swift */; };
 		4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */; };
 		4924C3A527415E8900A05E81 /* NumbersFoundAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4924C3A427415E8900A05E81 /* NumbersFoundAnalysisView.swift */; };
@@ -39,6 +50,8 @@
 		49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */; };
 		49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A22273FF5AE003D668E /* Int+Extension.swift */; };
 		49D28A252740729F003D668E /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A242740729F003D668E /* Array+Extension.swift */; };
+		49EAE11D276648C300BDB6DC /* WatchImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49EAE11C276648C300BDB6DC /* WatchImagePredictor.swift */; };
+		49EAE1312769080000BDB6DC /* own_time.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 49EAE1302769080000BDB6DC /* own_time.mlmodel */; };
 		49F6683E2737102F00177A65 /* Imgproc+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683D2737102F00177A65 /* Imgproc+Extension.swift */; };
 		49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F6683F27374AC200177A65 /* Point2i+Extension.swift */; };
 		49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F668412737D57600177A65 /* AnaylzedClockResult.swift */; };
@@ -55,6 +68,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4909F5BD2779CB68008D6161 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		4909F5BF2779CB6F008D6161 /* KMeans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMeans.swift; sourceTree = "<group>"; };
+		4909F5C1277A2B1C008D6161 /* Rect2i+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rect2i+Extension.swift"; sourceTree = "<group>"; };
+		4909F5C8277C69BC008D6161 /* SavedClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedClock.swift; sourceTree = "<group>"; };
+		4909F5CB277C6A84008D6161 /* SavedClockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedClockListView.swift; sourceTree = "<group>"; };
+		4909F5CD277C6BCF008D6161 /* SavedClockCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedClockCellView.swift; sourceTree = "<group>"; };
+		4909F5CF277C71F7008D6161 /* DrawSavedClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSavedClockView.swift; sourceTree = "<group>"; };
+		4909F5D1277C75A3008D6161 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4909F5D3277D87D1008D6161 /* AnalyzeAllSavedClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzeAllSavedClockView.swift; sourceTree = "<group>"; };
 		4910271A27098AD100BD929F /* PKDrawing+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKDrawing+Extension.swift"; sourceTree = "<group>"; };
 		4910272A2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
 		4924C3A427415E8900A05E81 /* NumbersFoundAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersFoundAnalysisView.swift; sourceTree = "<group>"; };
@@ -93,6 +115,8 @@
 		49D28A20273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhiteRoundedBackgroundViewModifier.swift; sourceTree = "<group>"; };
 		49D28A22273FF5AE003D668E /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		49D28A242740729F003D668E /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		49EAE11C276648C300BDB6DC /* WatchImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchImagePredictor.swift; sourceTree = "<group>"; };
+		49EAE1302769080000BDB6DC /* own_time.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = own_time.mlmodel; sourceTree = "<group>"; };
 		49F6683D2737102F00177A65 /* Imgproc+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Imgproc+Extension.swift"; sourceTree = "<group>"; };
 		49F6683F27374AC200177A65 /* Point2i+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Point2i+Extension.swift"; sourceTree = "<group>"; };
 		49F668412737D57600177A65 /* AnaylzedClockResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnaylzedClockResult.swift; sourceTree = "<group>"; };
@@ -113,6 +137,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4909F5C7277C691E008D6161 /* RealmSwift in Frameworks */,
+				4909F5C5277C691E008D6161 /* Realm in Frameworks */,
 				4996A63F272E971300B64DF4 /* Accelerate.framework in Frameworks */,
 				4996A63D272E970D00B64DF4 /* CoreFoundation.framework in Frameworks */,
 				4996A63B272E970900B64DF4 /* CoreMedia.framework in Frameworks */,
@@ -125,6 +151,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4909F5BC2779CB5E008D6161 /* kmeans */ = {
+			isa = PBXGroup;
+			children = (
+				4909F5BD2779CB68008D6161 /* Vector.swift */,
+				4909F5BF2779CB6F008D6161 /* KMeans.swift */,
+			);
+			path = kmeans;
+			sourceTree = "<group>";
+		};
+		4909F5CA277C6A70008D6161 /* Saved Clocks */ = {
+			isa = PBXGroup;
+			children = (
+				4909F5CB277C6A84008D6161 /* SavedClockListView.swift */,
+				4909F5CD277C6BCF008D6161 /* SavedClockCellView.swift */,
+				4909F5CF277C71F7008D6161 /* DrawSavedClockView.swift */,
+				4909F5D3277D87D1008D6161 /* AnalyzeAllSavedClockView.swift */,
+			);
+			path = "Saved Clocks";
+			sourceTree = "<group>";
+		};
 		4924C3A327415E6D00A05E81 /* DetailedAnalysisViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +214,7 @@
 				4978F9022739F14500F2C6BD /* ClockDrawingPencilKit.entitlements */,
 				49F668532738267E00177A65 /* Config.swift */,
 				4996A641272E974100B64DF4 /* opencv2.framework */,
+				49EAE1302769080000BDB6DC /* own_time.mlmodel */,
 				4996A617272D5C0200B64DF4 /* MNISTClassifier.mlmodel */,
 				4977FC38270730F500214747 /* Utility */,
 				4977FC33270707D800214747 /* Extensions */,
@@ -191,6 +238,7 @@
 		4977FC232707023300214747 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4909F5CA277C6A70008D6161 /* Saved Clocks */,
 				4924C3B0274199BD00A05E81 /* Debug */,
 				4924C3AE27418FBA00A05E81 /* ConfigView.swift */,
 				4924C3A327415E6D00A05E81 /* DetailedAnalysisViews */,
@@ -210,6 +258,7 @@
 				49F668412737D57600177A65 /* AnaylzedClockResult.swift */,
 				49F668432737D5A800177A65 /* ClassifiedDigit.swift */,
 				49F668452737D60100177A65 /* Prediction.swift */,
+				4909F5C8277C69BC008D6161 /* SavedClock.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,6 +277,7 @@
 				49F6685527388BC100177A65 /* Sequence+Extension.swift */,
 				49D28A22273FF5AE003D668E /* Int+Extension.swift */,
 				49D28A242740729F003D668E /* Array+Extension.swift */,
+				4909F5C1277A2B1C008D6161 /* Rect2i+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -235,11 +285,14 @@
 		4977FC38270730F500214747 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				4909F5BC2779CB5E008D6161 /* kmeans */,
 				4996A64B272E98AA00B64DF4 /* OpenCV */,
 				4977FC392707310000214747 /* GeometryGetter.swift */,
 				49F668472737D80000177A65 /* ClockAnalyzer.swift */,
 				49F668492737D9EA00177A65 /* MNISTImagePredictor.swift */,
 				49C0350C2762077F0050B29C /* ShareSheet.swift */,
+				49EAE11C276648C300BDB6DC /* WatchImagePredictor.swift */,
+				4909F5D1277C75A3008D6161 /* ImagePicker.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -295,6 +348,8 @@
 			);
 			name = ClockDrawingPencilKit;
 			packageProductDependencies = (
+				4909F5C4277C691E008D6161 /* Realm */,
+				4909F5C6277C691E008D6161 /* RealmSwift */,
 			);
 			productName = ClockDrawingPencilKit;
 			productReference = 4977FC122707021C00214747 /* Clock Drawing.app */;
@@ -326,6 +381,7 @@
 			);
 			mainGroup = 4977FC092707021C00214747;
 			packageReferences = (
+				4909F5C3277C691E008D6161 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = 4977FC132707021C00214747 /* Products */;
 			projectDirPath = "";
@@ -354,7 +410,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */,
+				4909F5D2277C75A3008D6161 /* ImagePicker.swift in Sources */,
+				4909F5C02779CB6F008D6161 /* KMeans.swift in Sources */,
 				4990F2BA274117E300FB42C1 /* CircleDrawingImageOverlay.swift in Sources */,
+				4909F5BE2779CB68008D6161 /* Vector.swift in Sources */,
 				4924C3AD27418BEF00A05E81 /* ClockhandsAnalysisView.swift in Sources */,
 				49D28A252740729F003D668E /* Array+Extension.swift in Sources */,
 				49F6685227381C9000177A65 /* DebugResultView.swift in Sources */,
@@ -365,14 +424,18 @@
 				4924C3A7274161EA00A05E81 /* NumbersAtRightPlaceView.swift in Sources */,
 				49F668482737D80000177A65 /* ClockAnalyzer.swift in Sources */,
 				49F6684A2737D9EA00177A65 /* MNISTImagePredictor.swift in Sources */,
+				4909F5C2277A2B1C008D6161 /* Rect2i+Extension.swift in Sources */,
+				4909F5D4277D87D1008D6161 /* AnalyzeAllSavedClockView.swift in Sources */,
 				4924C3AF27418FBA00A05E81 /* ConfigView.swift in Sources */,
 				49D28A1F273FDE5D003D668E /* ResultView.swift in Sources */,
 				4924C3A92741621700A05E81 /* HorizontalAndVerticalSymmetrieDigitView.swift in Sources */,
 				49F668422737D57600177A65 /* AnaylzedClockResult.swift in Sources */,
+				4909F5CE277C6BCF008D6161 /* SavedClockCellView.swift in Sources */,
 				4977FC3C2707513E00214747 /* UIImage+Extension.swift in Sources */,
 				4977FC35270707FA00214747 /* PKToolPicker+Extension.swift in Sources */,
 				49F6683E2737102F00177A65 /* Imgproc+Extension.swift in Sources */,
 				49F6684E2737EF8100177A65 /* StartClockTestView.swift in Sources */,
+				49EAE11D276648C300BDB6DC /* WatchImagePredictor.swift in Sources */,
 				49F668462737D60100177A65 /* Prediction.swift in Sources */,
 				49D28A21273FE3AB003D668E /* WhiteRoundedBackgroundViewModifier.swift in Sources */,
 				49F6685627388BC100177A65 /* Sequence+Extension.swift in Sources */,
@@ -380,16 +443,20 @@
 				49F668502737F3A800177A65 /* NavigationView+Extension.swift in Sources */,
 				49D28A23273FF5AE003D668E /* Int+Extension.swift in Sources */,
 				4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */,
+				4909F5C9277C69BC008D6161 /* SavedClock.swift in Sources */,
 				4977FC162707021C00214747 /* ClockDrawingPencilKitApp.swift in Sources */,
 				49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */,
 				49F668542738267E00177A65 /* Config.swift in Sources */,
 				49F6684C2737DF7200177A65 /* DrawAndClassifyClockView.swift in Sources */,
 				49C0350D2762077F0050B29C /* ShareSheet.swift in Sources */,
+				4909F5CC277C6A84008D6161 /* SavedClockListView.swift in Sources */,
 				4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */,
 				4977FC32270707AA00214747 /* DrawingView.swift in Sources */,
 				49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */,
+				49EAE1312769080000BDB6DC /* own_time.mlmodel in Sources */,
 				49D28A1D273FDCDF003D668E /* CriteriaListItemView.swift in Sources */,
 				4996A618272D5C0200B64DF4 /* MNISTClassifier.mlmodel in Sources */,
+				4909F5D0277C71F7008D6161 /* DrawSavedClockView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,7 +587,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ClockDrawingPencilKit/ClockDrawingPencilKit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClockDrawingPencilKit/Preview Content\"";
 				DEVELOPMENT_TEAM = RW3BM2X89S;
 				ENABLE_PREVIEWS = YES;
@@ -545,7 +612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
 				PRODUCT_NAME = "Clock Drawing";
@@ -565,7 +632,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ClockDrawingPencilKit/ClockDrawingPencilKit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClockDrawingPencilKit/Preview Content\"";
 				DEVELOPMENT_TEAM = RW3BM2X89S;
 				ENABLE_PREVIEWS = YES;
@@ -590,7 +657,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
 				PRODUCT_NAME = "Clock Drawing";
@@ -623,6 +690,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4909F5C3277C691E008D6161 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4909F5C4277C691E008D6161 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4909F5C3277C691E008D6161 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		4909F5C6277C691E008D6161 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4909F5C3277C691E008D6161 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4977FC0A2707021C00214747 /* Project object */;
 }

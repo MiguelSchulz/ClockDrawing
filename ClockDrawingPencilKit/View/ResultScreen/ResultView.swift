@@ -15,6 +15,7 @@ enum ShowModal {
     case fourth
     case fifth
     case sixth
+    case seventh
 }
 
 struct ResultView: View {
@@ -100,6 +101,7 @@ struct ResultView: View {
                     case .fourth: NeighborDigitsAnalysisView(clockAnalyzer: self.clockAnalyzer)
                     case .fifth: ClockhandsAnalysisView(clockAnalyzer: self.clockAnalyzer)
                     case .sixth: ShareSheet(activityItems: sharedItems)
+                    case .seventh: Text("TODO")
                     default:
                         Text("")
                     }
@@ -172,7 +174,11 @@ struct ResultView: View {
             }
             VStack(alignment: .leading) {
                 Text("Clockhands:").font(.headline).padding(.vertical, 10)
-                clockhandsRight
+                if Config.useMLforClockhands {
+                    clockhandsRightML
+                } else {
+                    clockhandsRight
+                }
             }
             VStack(alignment: .leading) {
                 Text("Additional:").font(.headline).padding(.vertical, 10)
@@ -290,6 +296,21 @@ struct ResultView: View {
         } label: {
             CriteriaListItemView(criteriaRating: criteria, explanation: "When comparing the distance between neighboring digits, the coefficient of variation is \(String(format: "%.1f", variationCoefficient*100))% (lower is better)")
             
+        }.buttonStyle(PlainButtonStyle())
+    }
+    
+    var clockhandsRightML: some View {
+        Button {
+            self.modal = .seventh
+            self.showModal = true
+        } label: {
+            if self.clockAnalyzer.analyzedResult.clockhandsRight {
+                CriteriaListItemView(criteriaRating: .right, explanation: "The clock hands show the time correctly: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
+            } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight {
+                CriteriaListItemView(criteriaRating: .unsure, explanation: "The clock hands could show the time correctly, but are not in exactly the right position: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
+            } else {
+                CriteriaListItemView(criteriaRating: .wrong, explanation: "The clock hands do not show the time correctly: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
+            }
         }.buttonStyle(PlainButtonStyle())
     }
     

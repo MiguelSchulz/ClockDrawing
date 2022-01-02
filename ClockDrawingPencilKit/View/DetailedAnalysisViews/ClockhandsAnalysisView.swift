@@ -16,9 +16,12 @@ struct ClockhandsAnalysisView: View {
         ZStack {
             Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)
             ScrollView {
-                VStack {
-                    CircleDrawingImageOverlay(image: self.clockAnalyzer.getRecognizedClockhandsImage())
-                }
+               
+                Image(uiImage: clockAnalyzer.getRecognizedClockhandsImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                
             }
         }
             

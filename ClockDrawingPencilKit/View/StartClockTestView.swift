@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct StartClockTestView: View {
+    
     @State var testStarted = false
-    @State var showSettings = false
+    @State var showModal = false
+    
+    @State var showSavedClocks = false
     
     var body: some View {
         NavigationView {
@@ -29,20 +32,35 @@ struct StartClockTestView: View {
                                     Text("Start").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.green.cornerRadius(20))
                                 }
                                 .isDetailLink(false).buttonStyle(PlainButtonStyle()).padding()
+                    NavigationLink(destination: NavigationLazyView(SavedClockListView(isVisible: self.$showSavedClocks)), isActive: self.$showSavedClocks) {
+                        EmptyView()
+                    }
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
-            .sheet(isPresented: self.$showSettings) {
-                ConfigView(showModal: self.$showSettings)
+            .sheet(isPresented: self.$showModal) {
+                ConfigView(showModal: self.$showModal)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showSettings = true
+                        showModal = true
                     } label: {
                         Image(systemName: "gear")
                     }
                 }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showSavedClocks = true
+                    } label: {
+                        Image(systemName: "clock.arrow.2.circlepath")
+                    }
+                }
+            }
+            .onChange(of: showSavedClocks) { _ in
+                
             }
            
         }.navigationViewStyle(StackNavigationViewStyle())

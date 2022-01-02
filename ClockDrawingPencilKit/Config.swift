@@ -9,6 +9,12 @@ import Foundation
 
 class Config {
     
+    static var useMLforClockhands: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "useMLforClockhands")
+        }
+    }
+    
     // ANGLES IN COMPARISON TO HORIZONTAL LINE IN WHICH CLOCKHANDS SHOULD BE CONSIDERED AS RIGHT (MINUTE NEEDS TO BE AT 30 AND HOUR NEEDS TO BE AT 120
     static var hourHandAngleRange: ClosedRange<Int32> {
         get {

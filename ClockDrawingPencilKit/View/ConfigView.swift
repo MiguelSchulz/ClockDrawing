@@ -11,6 +11,10 @@ struct ConfigView: View {
     
     @Binding var showModal: Bool
     
+    
+    @AppStorage("useMLforClockhands") var useMLforClockhands = true
+    
+    
     @AppStorage("clockhandTolerance") var clockhandTolerance = 18 // DONE
     @AppStorage("clockhandTolerance2") var clockhandTolerance2 = 25 // DONE
     
@@ -103,48 +107,58 @@ struct ConfigView: View {
                 Section(header: Text("Clockhand Detection")) {
                     VStack(alignment: .leading) {
                         HStack {
-                            Text("Perfect Clockhand Tolerance in degrees:")
-                            Text("\(clockhandTolerance)")
+                            Text("Use ML for clockhands:")
+                            Text(useMLforClockhands ? "Yes" : "No")
                         }
-                        Slider(value: Binding(get: { Float(clockhandTolerance) }, set: { clockhandTolerance = Int($0) }), in: 0...25, step: 1, label: {}, minimumValueLabel: {
-                            Text("0")
-                        }, maximumValueLabel: {
-                            Text("25")
-                        })
+                        Toggle("", isOn: self.$useMLforClockhands)
                     }
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Accepted Clockhand Tolerance in degrees:")
-                            Text("\(clockhandTolerance2)")
+                    if (!useMLforClockhands) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Perfect Clockhand Tolerance in degrees:")
+                                Text("\(clockhandTolerance)")
+                            }
+                            Slider(value: Binding(get: { Float(clockhandTolerance) }, set: { clockhandTolerance = Int($0) }), in: 0...25, step: 1, label: {}, minimumValueLabel: {
+                                Text("0")
+                            }, maximumValueLabel: {
+                                Text("25")
+                            })
                         }
-                        Slider(value: Binding(get: { Float(clockhandTolerance2) }, set: { clockhandTolerance2 = Int($0) }), in: Float(clockhandTolerance)...Float(clockhandTolerance+15), step: 1, label: {}, minimumValueLabel: {
-                            Text("\(clockhandTolerance)")
-                        }, maximumValueLabel: {
-                            Text("\(clockhandTolerance+15)")
-                        })
-                    }
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Hough Transform minimum line length:")
-                            Text("\(minLineLengthForHoughTransform)")
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Accepted Clockhand Tolerance in degrees:")
+                                Text("\(clockhandTolerance2)")
+                            }
+                            Slider(value: Binding(get: { Float(clockhandTolerance2) }, set: { clockhandTolerance2 = Int($0) }), in: Float(clockhandTolerance)...Float(clockhandTolerance+15), step: 1, label: {}, minimumValueLabel: {
+                                Text("\(clockhandTolerance)")
+                            }, maximumValueLabel: {
+                                Text("\(clockhandTolerance+15)")
+                            })
                         }
-                        Slider(value: Binding(get: { Float(minLineLengthForHoughTransform) }, set: { minLineLengthForHoughTransform = Int($0) }), in: 1...15, step: 1, label: {}, minimumValueLabel: {
-                            Text("1")
-                        }, maximumValueLabel: {
-                            Text("15")
-                        })
-                    }
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Hough Transform threshold:")
-                            Text("\(houghTransformThreshold)")
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Hough Transform minimum line length:")
+                                Text("\(minLineLengthForHoughTransform)")
+                            }
+                            Slider(value: Binding(get: { Float(minLineLengthForHoughTransform) }, set: { minLineLengthForHoughTransform = Int($0) }), in: 1...15, step: 1, label: {}, minimumValueLabel: {
+                                Text("1")
+                            }, maximumValueLabel: {
+                                Text("15")
+                            })
                         }
-                        Slider(value: Binding(get: { Float(houghTransformThreshold) }, set: { houghTransformThreshold = Int($0) }), in: 5...100, step: 5, label: {}, minimumValueLabel: {
-                            Text("5")
-                        }, maximumValueLabel: {
-                            Text("100")
-                        })
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("Hough Transform threshold:")
+                                Text("\(houghTransformThreshold)")
+                            }
+                            Slider(value: Binding(get: { Float(houghTransformThreshold) }, set: { houghTransformThreshold = Int($0) }), in: 5...100, step: 5, label: {}, minimumValueLabel: {
+                                Text("5")
+                            }, maximumValueLabel: {
+                                Text("100")
+                            })
+                        }
                     }
+                    
                 }
                 
                 Section(header: Text("Symmetrie")) {
@@ -250,6 +264,8 @@ struct ConfigView: View {
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
+                        useMLforClockhands = true
+                        
                         clockhandTolerance = 18 
                         clockhandTolerance2 = 25
                         

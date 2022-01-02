@@ -12,6 +12,8 @@ extension Point2i {
     func angleTo(_ point2: Point2i) -> Float {
         let angle = atan2f(Float(point2.y - self.y), Float(point2.x - self.x));
         return angle * 180 / .pi
+        
+        
     }
     
     func distanceSquared(to: Point2i) -> Float {

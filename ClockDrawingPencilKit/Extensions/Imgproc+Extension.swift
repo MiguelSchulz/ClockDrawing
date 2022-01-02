@@ -18,14 +18,14 @@ extension Imgproc {
         let imgDraw = img.clone()
         
         if h <= sh {
-            let differencePerSide: Int32 = (sh-h) / 2
+            let differencePerSide: Int32 = (sh-h) / 2 + 1
             Core.copyMakeBorder(src: imgDraw, dst: imgDraw, top: differencePerSide, bottom: differencePerSide, left: 0, right: 0, borderType: opencv2.BorderTypes.BORDER_CONSTANT, value: Scalar(Double(padColor)))
-            h += differencePerSide * 2
+            h += differencePerSide * 2 + 2
         }
         if w <= sw {
-            let differencePerSide: Int32 = (sw-w) / 2
+            let differencePerSide: Int32 = (sw-w) / 2 + 1
             Core.copyMakeBorder(src: imgDraw, dst: imgDraw, top: 0, bottom: 0, left: differencePerSide, right: differencePerSide, borderType: opencv2.BorderTypes.BORDER_CONSTANT, value: Scalar(Double(padColor)))
-            w += differencePerSide * 2
+            w += differencePerSide * 2 + 2
         }
         
         var interp = opencv2.InterpolationFlags.INTER_CUBIC
