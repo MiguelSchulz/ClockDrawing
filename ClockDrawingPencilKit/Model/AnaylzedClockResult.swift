@@ -9,9 +9,12 @@ import Foundation
 import opencv2
 
 struct AnalyzedClockResult: Equatable {
-    
-    var minute = 0
+
     var hour = 0
+    var minute = 0
+
+    var found2angle: Float = 30
+    var found11angle: Float = 120
     
     var score = 0
     
@@ -31,19 +34,25 @@ struct AnalyzedClockResult: Equatable {
     
     
     
-    var clockhandsRight: Bool {
+    func clockhandsRight() -> Bool {
         if Config.useMLforClockhands {
             return hour == 11 && minute == 10
         } else {
-            return Config.hourHandAngleRange.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange.contains(abs(Int32(self.minuteHandAngle)))
+            let hourRange = (Int32(found11angle)-Config.clockhandTolerance...Int32(found11angle)+Config.clockhandTolerance)
+            let minuteRange = (Int32(found2angle)-Config.clockhandTolerance...Int32(found2angle)+Config.clockhandTolerance)
+
+            return hourRange.contains(abs(Int32(self.hourHandAngle))) && minuteRange.contains(abs(Int32(self.minuteHandAngle)))
         }
         
     }
-    var clockhandsAlmostRight: Bool {
+    func clockhandsAlmostRight() -> Bool {
         if Config.useMLforClockhands {
             return (10...12).contains(hour) && (5...15).contains(minute)
         } else {
-            return Config.hourHandAngleRange2.contains(abs(Int32(self.hourHandAngle))) && Config.minuteHandAngleRange2.contains(abs(Int32(self.minuteHandAngle)))
+            let hourRange = (Int32(found11angle)-Config.clockhandTolerance2...Int32(found11angle)+Config.clockhandTolerance2)
+            let minuteRange = (Int32(found2angle)-Config.clockhandTolerance2...Int32(found2angle)+Config.clockhandTolerance2)
+            
+            return hourRange.contains(abs(Int32(self.hourHandAngle))) && minuteRange.contains(abs(Int32(self.minuteHandAngle)))
         }
         
     }
@@ -118,6 +127,7 @@ struct AnalyzedClockResult: Equatable {
     var digitDistanceVariationCoefficient: Float {
         return digitDistancesStd / digitDistancesMean
     }
+    
     
 }
 

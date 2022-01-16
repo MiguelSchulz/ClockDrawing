@@ -14,7 +14,8 @@ struct AnalyzeAllSavedClockView: View {
     @State var showModal = false
     @State var modal = ShowModal.first
 
-    
+    let semaphore = DispatchSemaphore(value: 5)
+
     @State public var sharedItems : [Any] = []
     @State var clocks: [SavedClock: AnalyzedClockResult?]
     //@State var clocks: [(savedClock: SavedClock, result: AnalyzedClockResult?)]
@@ -23,34 +24,21 @@ struct AnalyzeAllSavedClockView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(Array(clocks.keys)) { clock in
-                    VStack(spacing: 0) {
-                        HStack {
-                            CircleDrawingImageOverlay(image: clock.thumbnail).frame(minHeight: 100, maxHeight: 225)
-                            if let result = clocks[clock], let result = result {
+                    if let result = clocks[clock], let result = result {
+                        VStack(spacing: 0) {
+                            HStack {
+                                CircleDrawingImageOverlay(image: clock.thumbnail).frame(minHeight: 100, maxHeight: 225)
                                 CircleScoreView(color: .label, score: result.score).frame(minHeight: 100, maxHeight: 225)
-                            } else {
-                                ProgressView()
+
                             }
-                        }
-                        if let result = clocks[clock], let result = result {
                             detailedAnalysis(result: result).frame(minWidth: 0, maxWidth: .infinity)
+
+                        }.padding().background(Color(.systemGroupedBackground).cornerRadius(10)).padding()
+                        //.frame(height: 225)
+
+                        .onChange(of: clock.analyzedResult) { _ in
+
                         }
-                    }.padding().background(Color(.systemGroupedBackground).cornerRadius(10)).padding()
-                    //.frame(height: 225)
-                    .onAppear {
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            print("Start analysis")
-                            let analyzer = ClockAnalyzer()
-                            analyzer.startAnalysis(clockImage: generateClockImage(clock: clock), fatClockImage: generateFatClockImage(clock: clock)) {
-                                DispatchQueue.main.async {
-                                    print("Ready analysis")
-                                    clocks[clock] = analyzer.analyzedResult
-                                }
-                            }
-                        }
-                    }
-                    .onChange(of: clock.analyzedResult) { _ in
-                        
                     }
                 }
             }.toolbar {
@@ -63,6 +51,22 @@ struct AnalyzeAllSavedClockView: View {
                 }
             }.onChange(of: self.showModal) { _ in
                 
+            }
+            .onAppear {
+                for clock in Array(clocks.keys) {
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        if !clock.drawing.strokes.isEmpty {
+                            semaphore.wait()
+                            let analyzer = ClockAnalyzer()
+                            analyzer.startAnalysis(clockImage: generateClockImage(clock: clock), fatClockImage: generateFatClockImage(clock: clock)) {
+                                DispatchQueue.main.async {
+                                    semaphore.signal()
+                                    clocks[clock] = analyzer.analyzedResult
+                                }
+                            }
+                        } 
+                    }
+                }
             }
             
         }.navigationBarTitle("Summary", displayMode: .automatic)
@@ -123,7 +127,7 @@ struct AnalyzeAllSavedClockView: View {
     
     func generateClockImage(clock: SavedClock) -> UIImage {
         return clock.drawing.image(from: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: CGFloat(clock.width), height: CGFloat(clock.height))), scale: 1)
-        
+
     }
     
     func generateFatClockImage(clock: SavedClock) -> UIImage {
@@ -231,9 +235,9 @@ struct AnalyzeAllSavedClockView: View {
             self.modal = .seventh
             self.showModal = true
         } label: {
-            if result.clockhandsRight {
+            if result.clockhandsRight() {
                 CriteriaListItemView(criteriaRating: .right, explanation: "Clock hands correct: \(String(format: "%02d", result.hour)):\(String(format: "%02d", result.minute))")
-            } else if result.clockhandsAlmostRight {
+            } else if result.clockhandsAlmostRight() {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "Clock hands almost correct: \(String(format: "%02d", result.hour)):\(String(format: "%02d", result.minute))")
             } else {
                 CriteriaListItemView(criteriaRating: .wrong, explanation: "The clock hands do not show the time correctly: \(String(format: "%02d", result.hour)):\(String(format: "%02d", result.minute))")
@@ -246,9 +250,9 @@ struct AnalyzeAllSavedClockView: View {
             self.modal = .fifth
             self.showModal = true
         } label: {
-            if result.clockhandsRight {
+            if result.clockhandsRight() {
                 CriteriaListItemView(criteriaRating: .right, explanation: "Clock hands correct")
-            } else if result.clockhandsAlmostRight {
+            } else if result.clockhandsAlmostRight() {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "Clock hands almost correct")
             } else {
                 CriteriaListItemView(criteriaRating: .wrong, explanation: "Clock hands wrong")

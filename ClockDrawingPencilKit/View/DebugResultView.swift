@@ -74,7 +74,7 @@ struct DebugResultView: View {
                             Text("Clockhands").font(.headline)
                             Text("\(String(format: "Minute hand angle: %.0f", abs(analyzedResult.minuteHandAngle)))°")
                             Text("\(String(format: "Hour hand angle: %.0f", abs(analyzedResult.hourHandAngle)))°")
-                            if analyzedResult.clockhandsRight {
+                            if analyzedResult.clockhandsRight() {
                                 Text("Clockhands right!").padding().background(Color.green.cornerRadius(5))
                             } else {
                                 Text("Clockhands wrong!").padding().background(Color.red.cornerRadius(5))

@@ -27,37 +27,10 @@ extension Array where Element: FloatingPoint {
     
 }
 
-extension Array where Element: Comparable {
-    var rangesOfPeaksAndValleys: (peaks: [ClosedRange<Int>], valleys: [ClosedRange<Int>]) {
-        guard !isEmpty else { return ([], []) }
-
-        var peaks = [ClosedRange<Int>]()
-        var valleys = [ClosedRange<Int>]()
-
-        var previousValue = self[0]
-        var lastPeakStartingIndex: Int?
-        var lastValleyStartingIndex: Int?
-
-        for (index, value) in enumerated() {
-            if value > previousValue {
-                if let lastValleyStartingIndexUnwrapped = lastValleyStartingIndex {
-                    valleys.append(lastValleyStartingIndexUnwrapped...index - 1)
-                    lastValleyStartingIndex = nil
-                }
-
-                lastPeakStartingIndex = index
-            } else if value < previousValue {
-                if let lastPeakStartingIndexUnwrapped = lastPeakStartingIndex {
-                    peaks.append(lastPeakStartingIndexUnwrapped...index - 1)
-                    lastPeakStartingIndex = nil
-                }
-
-                lastValleyStartingIndex = index
-            }
-
-            previousValue = value
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
-
-        return (peaks, valleys)
     }
 }

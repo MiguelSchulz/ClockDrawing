@@ -13,7 +13,8 @@ import RealmSwift
 struct DrawSavedClockView: View {
     
     @StateRealmObject var savedClock: SavedClock
-    
+
+    @State var showBackground = true
     @State var showImagePicker = false
     @StateObject var clockAnalyzer = ClockAnalyzer()
     @State var drawingRect = CGRect()
@@ -35,10 +36,22 @@ struct DrawSavedClockView: View {
                 EmptyView()
             }.isDetailLink(false)
 
+            Picker("", selection: $savedClock.rightScore) {
+                Text("1").tag(1)
+                Text("2").tag(2)
+                Text("3").tag(3)
+                Text("4").tag(4)
+                Text("5").tag(5)
+                Text("6").tag(6)
+            }
+            .pickerStyle(.segmented)
+
             ZStack {
-                Image(uiImage: self.savedClock.backgroundImage).resizable().aspectRatio(contentMode: .fit)
-                    .offset(x: CGFloat(savedClock.backgroundOffsetX), y: CGFloat(savedClock.backgroundOffsetY))
-                    .scaleEffect(CGFloat(savedClock.backgroundZoom))
+                if showBackground {
+                    Image(uiImage: self.savedClock.backgroundImage).resizable().aspectRatio(contentMode: .fit)
+                        .offset(x: CGFloat(savedClock.backgroundOffsetX), y: CGFloat(savedClock.backgroundOffsetY))
+                        .scaleEffect(CGFloat(savedClock.backgroundZoom))
+                }
                 Circle().stroke(Color.black, lineWidth: 2).padding(10)
                 DrawingView(drawing: self.$drawing, firstStrokeDate: self.$clockAnalyzer.firstStrokeDate)
             }.aspectRatio(1, contentMode: .fit).background(GeometryGetter(rect: self.$drawingRect))
@@ -46,8 +59,14 @@ struct DrawSavedClockView: View {
             HStack {
                 Button {
                     showImagePicker = true
+
                 } label: {
                     Text("Choose Background").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.purple.cornerRadius(20))
+                }.buttonStyle(PlainButtonStyle()).padding()
+                Button {
+                    showBackground.toggle()
+                } label: {
+                    Text(showBackground ? "Hide Background" : "Show Background").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.pink.cornerRadius(20))
                 }.buttonStyle(PlainButtonStyle()).padding()
                 Button {
                     self.drawing = PKDrawing()
@@ -64,7 +83,7 @@ struct DrawSavedClockView: View {
                 
                 
             }
-            buttonStack
+            //buttonStack
         }.padding(UIDevice.current.userInterfaceIdiom == .pad ? 50 : 10)
             .onAppear {
                 self.drawing = self.savedClock.drawing
@@ -82,7 +101,7 @@ struct DrawSavedClockView: View {
                
             }
             .sheet(isPresented: $showImagePicker) {
-                ImagePicker(sourceType: .photoLibrary) { image in
+                ImagePicker(sourceType: .savedPhotosAlbum) { image in
                     let thawed = self.$savedClock.wrappedValue
                     if let realm = thawed.realm {
                         try! realm.write {
@@ -90,7 +109,7 @@ struct DrawSavedClockView: View {
                             print("Save")
                         }
                     }
-                    
+                    showBackground = true
                 }
             }
             
@@ -165,18 +184,19 @@ struct DrawSavedClockView: View {
     }
     
     func cutImageToCircle(image: UIImage) -> UIImage {
-        var imageMat = Mat(uiImage: image, alphaExist: false)
-        var safeMat = Mat(uiImage: image, alphaExist: false)
+        let imageMat = Mat(uiImage: image, alphaExist: false)
+        let safeMat = Mat(uiImage: image, alphaExist: false)
         
-        Imgproc.cvtColor(src: imageMat, dst: imageMat, code: ColorConversionCodes.COLOR_RGB2GRAY) // COLOR_BGR2GRAY
+        if imageMat.channels() > 1 {
+            Imgproc.cvtColor(src: imageMat, dst: imageMat, code: ColorConversionCodes.COLOR_RGB2GRAY)
+        } // COLOR_BGR2GRAY
         Imgproc.threshold(src: imageMat, dst: imageMat, thresh: 200, maxval: 255, type: ThresholdTypes.THRESH_BINARY_INV)
         
-        var kernel = Imgproc.getStructuringElement(shape: MorphShapes.MORPH_RECT, ksize: Size2i(width: 3, height: 3))
+        let kernel = Imgproc.getStructuringElement(shape: MorphShapes.MORPH_RECT, ksize: Size2i(width: 3, height: 3))
         Imgproc.dilate(src: imageMat, dst: imageMat, kernel: kernel, anchor: Point2i(x: -1, y: -1), iterations: 5)
         
         let hierarchy = Mat()
         var contours: [[Point]] = [[]]
-        let contourImage = imageMat.clone()
         
         // FIND CONTOURS
         Imgproc.findContours(image: imageMat, contours: &contours, hierarchy: hierarchy, mode: RetrievalModes.RETR_EXTERNAL, method: ContourApproximationModes.CHAIN_APPROX_SIMPLE)

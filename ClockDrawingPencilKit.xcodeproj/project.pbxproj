@@ -43,6 +43,9 @@
 		4996A63F272E971300B64DF4 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A63E272E971300B64DF4 /* Accelerate.framework */; };
 		4996A643272E976200B64DF4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4996A641272E974100B64DF4 /* opencv2.framework */; };
 		4996A649272E97F900B64DF4 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */; };
+		49AAC389278DC6EC00707F94 /* CountHowManyAreRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AAC388278DC6EC00707F94 /* CountHowManyAreRightView.swift */; };
+		49AAC38B278E284200707F94 /* ConfusionMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AAC38A278E284200707F94 /* ConfusionMatrixView.swift */; };
+		49AAC38E278E2D4900707F94 /* ConfusionMartrixPassedOrFailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AAC38D278E2D4900707F94 /* ConfusionMartrixPassedOrFailedView.swift */; };
 		49C0350D2762077F0050B29C /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0350C2762077F0050B29C /* ShareSheet.swift */; };
 		49D28A1B273FDA6A003D668E /* CircleScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1A273FDA6A003D668E /* CircleScoreView.swift */; };
 		49D28A1D273FDCDF003D668E /* CriteriaListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */; };
@@ -108,6 +111,9 @@
 		4996A647272E97F900B64DF4 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		4996A648272E97F900B64DF4 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		4996A64A272E987B00B64DF4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		49AAC388278DC6EC00707F94 /* CountHowManyAreRightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountHowManyAreRightView.swift; sourceTree = "<group>"; };
+		49AAC38A278E284200707F94 /* ConfusionMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfusionMatrixView.swift; sourceTree = "<group>"; };
+		49AAC38D278E2D4900707F94 /* ConfusionMartrixPassedOrFailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfusionMartrixPassedOrFailedView.swift; sourceTree = "<group>"; };
 		49C0350C2762077F0050B29C /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		49D28A1A273FDA6A003D668E /* CircleScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleScoreView.swift; sourceTree = "<group>"; };
 		49D28A1C273FDCDF003D668E /* CriteriaListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteriaListItemView.swift; sourceTree = "<group>"; };
@@ -163,10 +169,12 @@
 		4909F5CA277C6A70008D6161 /* Saved Clocks */ = {
 			isa = PBXGroup;
 			children = (
+				49AAC38C278E2D3300707F94 /* ConfusionMatrix */,
 				4909F5CB277C6A84008D6161 /* SavedClockListView.swift */,
 				4909F5CD277C6BCF008D6161 /* SavedClockCellView.swift */,
 				4909F5CF277C71F7008D6161 /* DrawSavedClockView.swift */,
 				4909F5D3277D87D1008D6161 /* AnalyzeAllSavedClockView.swift */,
+				49AAC388278DC6EC00707F94 /* CountHowManyAreRightView.swift */,
 			);
 			path = "Saved Clocks";
 			sourceTree = "<group>";
@@ -320,6 +328,15 @@
 			path = OpenCV;
 			sourceTree = "<group>";
 		};
+		49AAC38C278E2D3300707F94 /* ConfusionMatrix */ = {
+			isa = PBXGroup;
+			children = (
+				49AAC38A278E284200707F94 /* ConfusionMatrixView.swift */,
+				49AAC38D278E2D4900707F94 /* ConfusionMartrixPassedOrFailedView.swift */,
+			);
+			path = ConfusionMatrix;
+			sourceTree = "<group>";
+		};
 		49D28A19273FDA5A003D668E /* ResultScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +426,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49AAC389278DC6EC00707F94 /* CountHowManyAreRightView.swift in Sources */,
 				4910271B27098AD100BD929F /* PKDrawing+Extension.swift in Sources */,
 				4909F5D2277C75A3008D6161 /* ImagePicker.swift in Sources */,
 				4909F5C02779CB6F008D6161 /* KMeans.swift in Sources */,
@@ -418,6 +436,7 @@
 				49D28A252740729F003D668E /* Array+Extension.swift in Sources */,
 				49F6685227381C9000177A65 /* DebugResultView.swift in Sources */,
 				4924C3AB2741898E00A05E81 /* NeighborDigitsAnalysisView.swift in Sources */,
+				49AAC38B278E284200707F94 /* ConfusionMatrixView.swift in Sources */,
 				49F668442737D5A800177A65 /* ClassifiedDigit.swift in Sources */,
 				4977FC3A2707310000214747 /* GeometryGetter.swift in Sources */,
 				4910272D2710DECE00BD929F /* VNClassificationObservation+confidenceString.swift in Sources */,
@@ -450,6 +469,7 @@
 				49F6684C2737DF7200177A65 /* DrawAndClassifyClockView.swift in Sources */,
 				49C0350D2762077F0050B29C /* ShareSheet.swift in Sources */,
 				4909F5CC277C6A84008D6161 /* SavedClockListView.swift in Sources */,
+				49AAC38E278E2D4900707F94 /* ConfusionMartrixPassedOrFailedView.swift in Sources */,
 				4996A612272D56EA00B64DF4 /* View+Extension.swift in Sources */,
 				4977FC32270707AA00214747 /* DrawingView.swift in Sources */,
 				49F6684027374AC200177A65 /* Point2i+Extension.swift in Sources */,
@@ -612,7 +632,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
 				PRODUCT_NAME = "Clock Drawing";
@@ -657,7 +677,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schulz.miguel.ClockDrawing;
 				PRODUCT_NAME = "Clock Drawing";

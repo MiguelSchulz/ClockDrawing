@@ -13,7 +13,7 @@ import PencilKit
 class SavedClock: Object, ObjectKeyIdentifiable {
     @Persisted var _id: ObjectId = ObjectId.generate()
     @Persisted var name: String = ""
-    @Persisted private var drawingData = Data()
+    @Persisted private var drawingData = PKDrawing().dataRepresentation()
     @Persisted private var thumbnailImageData = Data()
     @Persisted private var backgroundImageData = Data()
     @Persisted var width: Float = 0
@@ -22,12 +22,17 @@ class SavedClock: Object, ObjectKeyIdentifiable {
     @Persisted var backgroundZoom: Float = 1
     @Persisted var backgroundOffsetX: Int = 0
     @Persisted var backgroundOffsetY: Int = 0
+
+    @Persisted var rightScore = 1
     
     var drawing: PKDrawing {
         get {
             do {
-                return try PKDrawing(data: drawingData)
-            } catch { return PKDrawing() }
+                if let drawing = try? PKDrawing(data: drawingData) {
+                    return drawing
+                }
+                return PKDrawing()
+            } //catch { return PKDrawing() }
         }
         set {
             self.drawingData = newValue.dataRepresentation()
@@ -56,6 +61,7 @@ class SavedClock: Object, ObjectKeyIdentifiable {
     }
     
     @Published var analyzedResult: AnalyzedClockResult?
+    @Published var analyzedScore: Int = 0
     
 
 }

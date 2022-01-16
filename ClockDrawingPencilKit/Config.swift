@@ -42,6 +42,22 @@ class Config {
             return (30-tolerance...30+tolerance)
         }
     }
+
+    static var clockhandTolerance: Int32 {
+        get {
+            let tolerance = Int32(UserDefaults.standard.integer(forKey: "clockhandTolerance"))
+            return tolerance
+        }
+    }
+
+    static var clockhandTolerance2: Int32 {
+        get {
+            let tolerance = Int32(UserDefaults.standard.integer(forKey: "clockhandTolerance2"))
+            return tolerance
+        }
+    }
+
+
     
     // MAKE DRAWN LINES THICKER OR THINNER FOR ANALYSIS
     static var changeLineWidthOfDrawingBy: Int {

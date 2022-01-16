@@ -66,6 +66,9 @@ class ClockAnalyzer: ObservableObject {
         let handsClassificationImage = prepareImage(rawImage: fatClockImage)
         let handsClassificationImage_notInverted = handsClassificationImage.clone()
         
+        //UIImageWriteToSavedPhotosAlbum(digitClassificationImage.toUIImage(), nil, nil, nil)
+        //UIImageWriteToSavedPhotosAlbum(handsClassificationImage.toUIImage(), nil, nil, nil)
+        
         self.analyzedResult.completeImage = clockImage
         
         if let firstStrokeDate = firstStrokeDate {
@@ -85,7 +88,8 @@ class ClockAnalyzer: ObservableObject {
         // PREPARE DIFFERENT IMAGES FOR CLASSIFICATION TASKS
         let imageWidth = digitClassificationImage.width()
         let imageHeight = digitClassificationImage.height()
-        
+
+        //Imgproc.circle(img: digitClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/5, color: Scalar(0,0,0), thickness: -1)
         
         self.classifyDigits(clockImage: digitClassificationImage)
         
@@ -100,18 +104,75 @@ class ClockAnalyzer: ObservableObject {
             if Config.useMLforClockhands {
                 self.readClockhandsUsingML(handsClassificationImage: handsClassificationImage_notInverted)
             } else {
-                //Imgproc.circle(img: handsClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/2, color: Scalar(0,0,0), thickness: Int32(Double(imageHeight / 2) * 0.8))
+                Imgproc.circle(img: handsClassificationImage, center: Point2i(x: imageWidth/2, y: imageHeight/2), radius: imageHeight/2, color: Scalar(0,0,0), thickness: Int32(Double(imageHeight / 2) * 0.8))
                 self.handDetection(clockImage: handsClassificationImage)
             }
             
             for count in self.analyzedResult.classifiedDigits.indices {
                 //let _ = self.determineIfDigitPositionIsCorrect(digit: digit)
                 self.analyzedResult.classifiedDigits[count].isInRightSpot = self.determineIfDigitPositionIsCorrect(digit: self.analyzedResult.classifiedDigits[count])
+
                 self.calculateShortestDistanceToOtherDigits(digit: self.analyzedResult.classifiedDigits[count])
             }
+            let (angle2, angle11) = self.tryFindingDigitAnglesForClockhands()
+
+            self.analyzedResult.found2angle = angle2
+            self.analyzedResult.found11angle = angle11
+
             self.analyzedResult.score = self.makeDecision()
             onCompletion()
         }
+    }
+
+    private func tryFindingDigitAnglesForClockhands() -> (angle2: Float, angle11: Float) {
+        var angle2: Float = 30
+        var angle11: Float = 120
+
+        let image = Mat(uiImage: self.analyzedResult.completeImage)
+
+        let centerPoint = Point2i(x: image.width()/2, y: image.height()/2)
+
+
+        // TRY FINDING BY NUMBER AT RIGHT POSITION
+        for digit in analyzedResult.classifiedDigits.filter({$0.topPrediction.classification == "11"}) {
+            let angle = centerPoint.angleTo(digit.center) * -1
+            if angle11 == 120 && (105...150).contains(angle) {
+                angle11 = angle
+            } else if (abs(120.0 - angle) < abs(120.0 - angle11)) {
+                angle11 = angle
+            }
+        }
+
+        for digit in analyzedResult.classifiedDigits.filter({$0.topPrediction.classification == "2"}) {
+            let angle = centerPoint.angleTo(digit.center) * -1
+            if angle2 == 30 && (10...70).contains(angle) {
+                angle2 = angle
+            } else if (abs(30 - angle) < abs(30 - angle2)) {
+                angle2 = angle
+            }
+        }
+/*
+        // TRY FINDING CLOSEST MARKER AT POSITION
+        if angle2 == 30 {
+            if let number2 = analyzedResult.classifiedDigits.min(by: {abs(30 - (centerPoint.angleTo($0.center) * -1)) < abs(30 - (centerPoint.angleTo($1.center) * -1))}) {
+                let angle = centerPoint.angleTo(number2.center) * -1
+                if abs(30 - angle) < 10 {
+                    angle2 = angle
+                }
+            }
+        }
+        if angle11 == 120 {
+            if let number11 = analyzedResult.classifiedDigits.min(by: {abs(120 - (centerPoint.angleTo($0.center) * -1)) < abs(120 - (centerPoint.angleTo($1.center) * -1))}) {
+                let angle = centerPoint.angleTo(number11.center) * -1
+                if abs(120 - angle) < 10 {
+                    angle11 = angle
+                }
+            }
+        }*/
+
+
+
+        return (angle2: angle2, angle11: angle11)
     }
     
     private func handDetection(clockImage: Mat) {
@@ -125,15 +186,16 @@ class ClockAnalyzer: ObservableObject {
         //Imgproc.cvtColor(src: colorLineDrawMat, dst: colorLineDrawMat, code: ColorConversionCodes.COLOR_GRAY2RGBA)
         
         // REMOVE FOUND DIGITS FROM IMAGE
-        for digit in self.analyzedResult.classifiedDigits {
+        /*for digit in self.analyzedResult.classifiedDigits {
             Imgproc.rectangle(img: drawingMat, rec: digit.originalBoundingBox.outsetBy(d: Int32(Config.changeLineWidthOfDrawingBy+2)), color: Scalar(0), thickness: -1)
-        }
+        }*/
         // WARP POLAR TO CREATE LINEAR IMAGE OF CIRCLE
-        Imgproc.warpPolar(src: drawingMat, dst: lineDrawMat, dsize: drawingMat.size(), center: Point2f(x: Float(drawingMat.width()) / 2, y: Float(drawingMat.height()) / 2), maxRadius: Double(drawingMat.width()) / 3, flags: WarpPolarMode.WARP_POLAR_LINEAR.rawValue)
+        Imgproc.warpPolar(src: drawingMat, dst: lineDrawMat, dsize: drawingMat.size(), center: Point2f(x: Float(drawingMat.width()) / 2, y: Float(drawingMat.height()) / 2), maxRadius: Double(drawingMat.width()) / 4, flags: WarpPolarMode.WARP_POLAR_LINEAR.rawValue)
+        
         
         
         // CUT LEFT TO FIX CENTER ERROR
-        Imgproc.rectangle(img: lineDrawMat, rec: Rect2i(x: 0, y: 0, width: lineDrawMat.width() / 4, height: lineDrawMat.height()), color: Scalar(0), thickness: -1)
+//        Imgproc.rectangle(img: lineDrawMat, rec: Rect2i(x: 0, y: 0, width: lineDrawMat.width() / 6, height: lineDrawMat.height()), color: Scalar(0), thickness: -1)
         //Imgproc.rectangle(img: lineDrawMat, rec: Rect2i(x: 0, y: 0, width: lineDrawMat.width(), height: lineDrawMat.height()/2), color: Scalar(0), thickness: -1)
         
         // EDGE DETECTION
@@ -419,8 +481,12 @@ class ClockAnalyzer: ObservableObject {
     
     private func calculateShortestDistanceToOtherDigits(digit: ClassifiedDigit) {
         var distancesArray = [Float]()
+        let image = Mat(uiImage: self.analyzedResult.completeImage)
+        let centerPoint = Point2i(x: image.width()/2, y: image.height()/2)
         for otherDigit in analyzedResult.classifiedDigits.filter({$0 != digit}) {
-            distancesArray.append(digit.center.distance(to: otherDigit.center))
+            if otherDigit.center.distance(to: centerPoint) > Float(image.width()) / 5 {
+                distancesArray.append(digit.center.distance(to: otherDigit.center))
+            }
         }
         if let firstMin = distancesArray.min() {
             analyzedResult.allShortestDistancesBetweenDigits.append(firstMin)
@@ -481,9 +547,9 @@ class ClockAnalyzer: ObservableObject {
         
         var bestRatingStillPossible = 1
         
-        if data.clockhandsRight { // HARD FORK FOR CLOCKHANDS
+        if data.clockhandsRight() { // HARD FORK FOR CLOCKHANDS
             bestRatingStillPossible = 1
-        } else if data.clockhandsAlmostRight {
+        } else if data.clockhandsAlmostRight() {
             bestRatingStillPossible = 2
         } else {
             bestRatingStillPossible = 3
@@ -492,15 +558,15 @@ class ClockAnalyzer: ObservableObject {
         
         
         switch pointsGathered {
-            case let x where x >= 36:
+            case let x where x >= 41:
             score = 1
-            case let x where x >= 28:
+            case let x where x >= 30:
             score = 2
-            case let x where x >= 24:
+            case let x where x >= 26:
             score = 3
-            case let x where x >= 20:
+            case let x where x >= 22:
             score = 4
-            case let x where x >= 16:
+            case let x where x >= 18:
             score = 5
             default:
             score = 6
@@ -580,20 +646,30 @@ extension ClockAnalyzer {
         let bigRange = (mean-2*std...mean+2*std)
         
         let completeImageMat = Mat(uiImage: self.analyzedResult.completeImage, alphaExist: true)
-        
+        //let allLinesImage = Mat(uiImage: self.analyzedResult.completeImage, alphaExist: true)
+
+        let centerPoint = Point2i(x: completeImageMat.width()/2, y: completeImageMat.height()/2)
+
         func draw(from point1: Point2i, to point2: Point2i, distance: Float) {
-            var color = Scalar(255,0,0,255)
-            if smallRange.contains(distance) {
-                color = Scalar(0,255,0,255)
-            } else if bigRange.contains(distance) {
-                color = Scalar(255,255,0,255)
+            let minDistance = Float(completeImageMat.width()) / 5
+            if centerPoint.distance(to: point1) > minDistance && centerPoint.distance(to: point2) > minDistance{
+                var color = Scalar(255,0,0,255)
+                if smallRange.contains(distance) {
+                    color = Scalar(0,255,0,255)
+                } else if bigRange.contains(distance) {
+                    color = Scalar(255,255,0,255)
+                }
+                Imgproc.line(img: completeImageMat, pt1: point1, pt2: point2, color: color, thickness: 2)
             }
-            Imgproc.line(img: completeImageMat, pt1: point1, pt2: point2, color: color, thickness: 2)
+
         }
         
         
         for digit in self.analyzedResult.classifiedDigits {
             var otherDigits = analyzedResult.classifiedDigits.filter({$0 != digit})
+            /*for otherDigit in otherDigits {
+                Imgproc.line(img: allLinesImage, pt1: digit.center, pt2: otherDigit.center, color: Scalar(0,255,0,255), thickness: 2)
+            }*/
             if let firstMinDigit = otherDigits.min(by: { digit.center.distance(to: $0.center) < digit.center.distance(to: $1.center)} ) {
                 draw(from: digit.center, to: firstMinDigit.center, distance: digit.center.distance(to: firstMinDigit.center))
                 otherDigits.removeAll(where: {$0 == firstMinDigit})
@@ -606,8 +682,9 @@ extension ClockAnalyzer {
     }
     
     func getRecognizedClockhandsImage() -> UIImage {
-        
         return self.analyzedResult.houghImage
     }
     
 }
+
+

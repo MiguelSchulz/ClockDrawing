@@ -304,9 +304,9 @@ struct ResultView: View {
             self.modal = .seventh
             self.showModal = true
         } label: {
-            if self.clockAnalyzer.analyzedResult.clockhandsRight {
+            if self.clockAnalyzer.analyzedResult.clockhandsRight() {
                 CriteriaListItemView(criteriaRating: .right, explanation: "The clock hands show the time correctly: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
-            } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight {
+            } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight() {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "The clock hands could show the time correctly, but are not in exactly the right position: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
             } else {
                 CriteriaListItemView(criteriaRating: .wrong, explanation: "The clock hands do not show the time correctly: \(String(format: "%02d", self.clockAnalyzer.analyzedResult.hour)):\(String(format: "%02d", self.clockAnalyzer.analyzedResult.minute))")
@@ -319,9 +319,9 @@ struct ResultView: View {
             self.modal = .fifth
             self.showModal = true
         } label: {
-            if self.clockAnalyzer.analyzedResult.clockhandsRight {
+            if self.clockAnalyzer.analyzedResult.clockhandsRight() {
                 CriteriaListItemView(criteriaRating: .right, explanation: "The clock hands show the time '10 past 11' correctly")
-            } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight {
+            } else if self.clockAnalyzer.analyzedResult.clockhandsAlmostRight() {
                 CriteriaListItemView(criteriaRating: .unsure, explanation: "The clock hands could show the time '10 past 11' correctly, but are not in exactly the right position")
             } else {
                 CriteriaListItemView(criteriaRating: .wrong, explanation: "The clock hands do not show the time '10 past 11' correctly")

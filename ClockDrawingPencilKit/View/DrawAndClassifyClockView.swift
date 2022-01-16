@@ -41,11 +41,6 @@ struct DrawAndClassifyClockView: View {
             Spacer()
             HStack {
                 Button {
-                    self.magicImage = UIImage(named: "do_magic")
-                } label: {
-                    Text("Do magic").font(.system(size: 25, weight: .semibold, design: .default)).foregroundColor(.white).font(.title).padding().background(Color.purple.cornerRadius(20))
-                }.buttonStyle(PlainButtonStyle()).padding()
-                Button {
                     self.drawing = PKDrawing()
                     self.magicImage = nil
                     self.clockAnalyzer.analyzedResult.timesRestarted += 1

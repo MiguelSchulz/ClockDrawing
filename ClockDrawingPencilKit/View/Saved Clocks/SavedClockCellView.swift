@@ -15,7 +15,7 @@ struct SavedClockCellView: View {
     var body: some View {
         VStack {
             CircleDrawingImageOverlay(image: clock.thumbnail)
-            Text("Clock")
+            Text("\(clock.rightScore)")
         }.padding().background(Color(.systemGroupedBackground).cornerRadius(10))
     }
 }
